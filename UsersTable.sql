@@ -20,3 +20,17 @@ VALUES
 ('gsov', 'atgtn', 'https://www.pinterest.it/pin/502784745871843906/', '02/03/2022', 0)
 
 SELECT * FROM Users
+
+Delete from Users
+
+alter table Users
+drop constraint PK__Users__3214EC07C4FF858F
+
+alter table Users
+add constraint PK_IdUsername Primary key (Id , Username)
+
+alter table Users
+add constraint CH_Password check (LEN([Password]) > 5) 
+
+alter table Users
+add constraint DF_LastLoginTime default getdate() for LastLoginTime
