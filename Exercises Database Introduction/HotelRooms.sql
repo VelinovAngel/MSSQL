@@ -1,5 +1,7 @@
 --create database Hotel
+
 --use Hotel
+
 
 
 
@@ -12,9 +14,11 @@ create table Employees
 	Notes varchar(max)
 )
 
+select * from Employees
+
 insert into Employees (Id, FirstName, LastName, Title, Notes) values
 (1, 'Gosho', 'Goshev' , 'CEO' , null),
-(2, 'Pesho', 'Ivanov' , 'CFO' , 'randon note'),
+(2, 'Pesho', 'Ivanov' , 'CFO' , 'random note'),
 (3, 'Tosho', 'Stoyanov' , 'CTO' , null)
 
 --(AccountNumber, FirstName, LastName, PhoneNumber, EmergencyName, EmergencyNumber, Notes)
@@ -58,6 +62,7 @@ insert into RoomTypes values
 ('Suit', null),
 ('Double' , null)
 
+select * from RoomTypes
 
 create table BedTypes
 (
@@ -104,9 +109,9 @@ create table Payments
 )
 
 insert into Payments values
-(1, 1, GETDATE(), 120, '5/5/2012', '5/8/2012', 3, 540.13,null,null,670,12, null),
-(2, 1, GETDATE(), 120, '1/4/2012', '10/4/2012', 3, 2400.13,null,null,610,22, null),
-(3, 1, GETDATE(), 120, '5/1/2012', '5/2/2012', 3, 340.13,null,null,690,52, null)
+(1, 1, GETDATE(), 120, '5/5/2012', '5/8/2012', 3, 540.13, null, null, 670.12, null),
+(2, 2, GETDATE(), 122, '1/4/2012', '10/4/2012', 3, 2400.13, null, null, 610.22, null),
+(3, 3, GETDATE(), 123, '5/1/2012', '5/2/2012', 3, 340.13, null, null, 690.52, null)
 
 -- (Id, EmployeeId, DateOccupied, AccountNumber, RoomNumber, RateApplied, PhoneCharge, Notes)
 
