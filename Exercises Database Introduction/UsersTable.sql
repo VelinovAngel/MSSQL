@@ -21,16 +21,26 @@ VALUES
 
 SELECT * FROM Users
 
-Delete from Users
+DELETE FROM Users
 
-alter table Users
-drop constraint PK__Users__3214EC07C4FF858F
+ALTER TABLE Users
+DROP CONSTRAINT PK__Users__3214EC07C4FF858F
 
-alter table Users
-add constraint PK_IdUsername Primary key (Id , Username)
+ALTER TABLE Users
+ADD CONSTRAINT PK_IdUsername Primary key (Id , Username)
 
-alter table Users
-add constraint CH_Password check (LEN([Password]) > 5) 
+ALTER TABLE Users
+DROP CONSTRAINT PK_IdUsername
 
-alter table Users
-add constraint DF_LastLoginTime default getdate() for LastLoginTime
+ALTER TABLE Users
+ADD CONSTRAINT PK_Id Primary key (Id)
+
+ALTER TABLE Users
+ADD CONSTRAINT CH_Password check (LEN([Password]) > 5) 
+
+ALTER TABLE Users
+ADD CONSTRAINT CH_UsernameIsAtLeast3Symbols check (LEN([Password]) > 3) 
+
+ALTER TABLE Users
+ADD CONSTRAINT DF_LastLoginTime default getdate() for LastLoginTime
+
