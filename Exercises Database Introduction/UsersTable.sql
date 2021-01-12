@@ -44,3 +44,5 @@ ADD CONSTRAINT CH_UsernameIsAtLeast3Symbols check (LEN([Password]) > 3)
 ALTER TABLE Users
 ADD CONSTRAINT DF_LastLoginTime default getdate() for LastLoginTime
 
+
+
