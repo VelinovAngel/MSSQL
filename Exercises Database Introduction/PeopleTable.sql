@@ -24,7 +24,7 @@ Create table People
 
 --drop table People
 
-insert People values
+insert into People values
 (1, 'Gosho', 'https://github.com/VelinovAngel', 12.22 , 12.35, 'm', 'Hubav'),
 (2, 'Ana', 'https://github.com/VelinovAngel', 2.22 , 2.35, 'f', 'Hubava'),
 (3, 'Angel', 'https://github.com/VelinovAngel', 13.22 , 13.35, 'm', 'Hubav'),
