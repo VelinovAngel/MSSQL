@@ -133,6 +133,4 @@ insert into Occupancies values
 (3, 122, GETDATE(), 90 , 90, 0, 0, null)
 
 
-Select * from Employees
-
 
