@@ -32,8 +32,13 @@ Create table Cars
 	Doors int not null,
 	Picture varchar(max) ,
 	Condition char(15),
-	Available char(15)
+	Available bit not null
 )
+
+insert into Cars values 
+(112233, 'VW', 'Golf GTI', '10/10/2010', 1, 3, null, 'used', 1),
+(9999, 'Audi', 'RS6', '01/01/2021', 2, 3, null, 'new', 0),
+(1111, 'Audi', 'A8L', '10/01/2021', 1, 3, null, 'new', 0),
 
 --•	Employees (Id, FirstName, LastName, Title, Notes)
 
@@ -47,9 +52,9 @@ Create table Employees
 )
 
 insert into Employees values
-(1, 'Gosho', 'Goshev', 'Ivanka', null),
-(2, 'Ivan', 'Goshev', 'AGr', null),
-(3, 'Stoyan', 'Goshev', 'Adk', null)
+(1, 'Angel', 'Velinov', 'Mr', null),
+(2, 'Niki', 'Velinov', 'Mr', null),
+(3, 'Valentino', 'Rossi', 'Mr', 'The Doctor VR46')
 
 
 --•	Customers (Id, DriverLicenceNumber, FullName, Address, City, ZIPCode, Notes)
@@ -63,6 +68,8 @@ Create table Customers
 	ZIPCode char(20),
 	Notes varchar(max)
 )
+
+
 
 --•	RentalOrders (Id, EmployeeId, CustomerId, CarId, TankLevel, KilometrageStart, KilometrageEnd, TotalKilometrage, StartDate, EndDate, TotalDays, RateApplied, TaxRate, OrderStatus, Notes)
 
