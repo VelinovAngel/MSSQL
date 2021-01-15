@@ -1,5 +1,3 @@
-
-
 --Create database CarRental
 
 --use CarRental
@@ -64,7 +62,7 @@ insert into Employees values
 (3, 'Valentino', 'Rossi', 'Mr', 'The Doctor VR46')
 
 
-select * from Employees
+--select * from Employees
 
 --•	Customers (Id, DriverLicenceNumber, FullName, Address, City, ZIPCode, Notes)
 Create table Customers
