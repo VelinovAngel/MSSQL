@@ -40,8 +40,8 @@ Create table Cars
 Create table Employees
 (
 	Id int primary key,
-	FirstName varchar(90),
-	LastName varchar(90),
+	FirstName varchar(90) not null,
+	LastName varchar(90) not null,
 	Title varchar(50),
 	Notes varchar(max)
 )
@@ -69,18 +69,18 @@ Create table Customers
 Create table RentalOrders
 (
 	Id int primary key,
-	EmployeeId int,
-	CustomerId int,
-	CarId int,
-	TankLevel int,
-	KilometrageStart int,
-	KilometrageEnd int,
-	TotalKilometrage int,
-	StartDate time,
-	EndDate time,
-	TotalDays time,
-	RateApplied float(2),
-	TaxRate float(2),
-	OrderStatus char(10),
+	EmployeeId int foreign key references Employees(Id),
+	CustomerId int foreign key references Customers(Id),
+	CarId int foreign key references Cars(Id),
+	TankLevel int not null,
+	KilometrageStart int not null,
+	KilometrageEnd int not null,
+	TotalKilometrage as KilometrageEnd-KilometrageStart,
+	StartDate datetime,
+	EndDate datetime,
+	TotalDays as datediff(day , StartDate, EndDate),
+	RateApplied decimal(5,2),
+	TaxRate decimal(10,2) not null,
+	OrderStatus char(20),
 	Notes varchar(max)
 )
