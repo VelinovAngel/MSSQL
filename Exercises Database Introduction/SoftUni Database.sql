@@ -40,6 +40,20 @@ create table Employees
 	AddressId int foreign key references Addresses(Id)
 )
 
+	--Problem 17.	Backup Database
+/*----------------------------------------------------------------------*/
+backup database SoftUni
+	to disk = 'C:\Angel\SoftUni\Softuni-backup.bak'
+
+use master
+
+drop database SoftUni
+
+restore database SoftUni1
+from disk = 'C:\Angel\SoftUni\Softuni-backup.bak'
+
+
+
 	--Problem 18.	Basic Insert
 /*----------------------------------------------------------------------*/
 --•	Departments: Engineering, Sales, Marketing, Software Development, Quality Assurance
