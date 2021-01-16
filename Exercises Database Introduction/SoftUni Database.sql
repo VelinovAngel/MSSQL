@@ -1,3 +1,6 @@
+	--Problem 16.	Create SoftUni Database
+/*----------------------------------------------------------------------*/
+
 --Create database SoftUni
 
 --use SoftUni
@@ -45,14 +48,14 @@ create table Employees
 backup database SoftUni
 	to disk = 'C:\Angel\SoftUni\Softuni-backup.bak'
 
-use master
+--use master
 
-drop database SoftUni
+--drop database SoftUni
 
 restore database SoftUni1
 from disk = 'C:\Angel\SoftUni\Softuni-backup.bak'
 
-
+--use SoftUni
 
 	--Problem 18.	Basic Insert
 /*----------------------------------------------------------------------*/
@@ -123,4 +126,11 @@ select FirstName, LastName, JobTitle, Salary from Employees
 	--Problem 22.	Increase Employees Salary
 /*----------------------------------------------------------------------*/
 
+update Employees
+	set Salary*=1.1
 
+select Salary from Employees
+
+
+
+/*----------------------------------------------------------------------*/
