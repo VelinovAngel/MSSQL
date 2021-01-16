@@ -132,5 +132,18 @@ update Employees
 select Salary from Employees
 
 
-
+	--Problem 23.	Decrease Tax Rate
 /*----------------------------------------------------------------------*/
+
+use Hotel
+update Payments
+	set TaxRate /= 0.97
+
+select TaxRate from Payments
+
+	--Problem 24.	Delete All Records
+/*----------------------------------------------------------------------*/
+
+use Hotel
+
+delete from Occupancies
