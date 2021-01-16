@@ -9,10 +9,6 @@ create table Towns
 	[Name] varchar(90),
 )
 
-insert into Towns([Name]) values
-('Sofia'),('Plovdiv'),('Varna'),('Burgas')
-
-select * from Towns
 
 --•	Addresses (Id, AddressText, TownId)
 create table Addresses
@@ -29,11 +25,6 @@ create table Departments
 	[Name] varchar(90)
 )
 
---•	Departments: Engineering, Sales, Marketing, Software Development, Quality Assurance
-insert into Departments([Name]) values
-('Engineering'),('Sales'),('Marketing'),('Software Development'),('Quality Assurance')
-
-select * from Departments
 
 --•	Employees (Id, FirstName, MiddleName, LastName, JobTitle, DepartmentId, HireDate, Salary, AddressId)
 create table Employees
@@ -48,6 +39,18 @@ create table Employees
 	Salary decimal(18,2),
 	AddressId int foreign key references Addresses(Id)
 )
+
+	--Problem 18.	Basic Insert
+/*----------------------------------------------------------------------*/
+--•	Departments: Engineering, Sales, Marketing, Software Development, Quality Assurance
+insert into Departments([Name]) values
+('Engineering'),('Sales'),('Marketing'),('Software Development'),('Quality Assurance')
+
+
+insert into Towns([Name]) values
+('Sofia'),('Plovdiv'),('Varna'),('Burgas')
+
+
 insert into Employees(FirstName,MiddleName,LastName,JobTitle,DepartmentId,HireDate,Salary)
 	values 
 ('Ivan', 'Ivanov', 'Ivanov', '.NET Developer', 4, '01/02/2013', 3500.00),
@@ -56,9 +59,8 @@ insert into Employees(FirstName,MiddleName,LastName,JobTitle,DepartmentId,HireDa
 ('Georgi', 'Teziev', 'Ivanov', 'CEO', 2, '09/12/2007', 3000.00),
 ('Peter', 'Pan', 'Pan', 'Intern', 3, '12/08/2016', 599.88)
 
-select * from Employees
 
-drop table Employees
+--drop table Employees
 --Name					Job Title		Department				Hire Date	Salary
 --Ivan Ivanov Ivanov	.NET Developer	Software Development	01/02/2013	3500.00
 --Petar Petrov Petrov	Senior Engineer	Engineering				02/03/2004	4000.00
@@ -68,5 +70,43 @@ drop table Employees
 
 
 --drop table Employees
+
+
+	---Problem 19.	Basic Select All Fields
+/*----------------------------------------------------------------------*/
+select * from Towns
+
+select * from Departments
+
+select * from Employees
+
+
+	--Problem 20.	Basic Select All Fields and Order Them
+/*----------------------------------------------------------------------*/
+select * from Towns
+	order by [Name] asc
+
+select * from Departments
+	order by [Name]
+
+select * from Employees
+	order by Salary desc
+
+
+	--Problem 21.	Basic Select Some Fields
+/*----------------------------------------------------------------------*/
+
+select [Name] from Towns
+	order by [Name]
+
+select [Name] from Departments
+	order by [Name]
+
+select FirstName, LastName, JobTitle, Salary from Employees
+	order by Salary desc
+
+
+	--Problem 22.	Increase Employees Salary
+/*----------------------------------------------------------------------*/
 
 
