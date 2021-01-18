@@ -91,3 +91,49 @@ select * from Employees
 	
 	--16. Create View Employees with Salaries
 /*-------------------------------------------------*/
+
+create view V_EmployeesSalaries as
+	select FirstName, LastName, Salary 
+	from Employees
+
+	--17. Create View Employees with Job Titles
+/*-------------------------------------------------*/
+
+create view V_EmployeeNameJobTitle as
+	select FirstName + ' ' + ISNULL(MiddleName,'') + ' ' + LastName as [Full Name] , JobTitle
+	from Employees
+
+	--18. Distinct Job Titles
+/*-------------------------------------------------*/
+
+select distinct JobTitle from Employees
+
+	--19. Find First 10 Started Projects
+/*-------------------------------------------------*/
+
+select top(10) * from Projects
+		order by StartDate, [Name]
+
+	--20. Last 7 Hired Employees
+/*-------------------------------------------------*/
+
+select TOP(7) FirstName, LastName, HireDate 
+	from Employees
+		order by HireDate desc
+		
+	--21. Increase Salaries
+/*-------------------------------------------------*/
+--Engineering, Tool Design, Marketing or Information Services department by 12%. Then select Salaries column from the Employees table. 
+
+update Employees 
+	set Salary *= 1.12
+	where DepartmentID in (1,2,4,11)
+
+select Salary from Employees
+
+
+use Geography
+
+	--22. All Mountain Peaks
+/*-------------------------------------------------*/
+
