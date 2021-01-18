@@ -19,3 +19,4 @@ select FirstName , LastName , Salary from Employees
 	--5.Find Full Name of Each Employee
 /*-------------------------------------------------*/
 
+select FirstName, MiddleName, LastName from Employees
