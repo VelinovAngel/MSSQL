@@ -79,3 +79,15 @@ select top(5) FirstName, LastName from Employees
 
 	--14. Find All Employees Except Marketing
 /*-------------------------------------------------*/
+
+select FirstName, LastName from Employees
+		where DepartmentID != 4
+
+	--15. Sort Employees Table
+/*-------------------------------------------------*/
+
+select * from Employees
+	order by Salary desc, FirstName, LastName desc, MiddleName
+	
+	--16. Create View Employees with Salaries
+/*-------------------------------------------------*/
