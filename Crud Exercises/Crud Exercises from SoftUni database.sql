@@ -13,3 +13,9 @@ select [Name] from Departments
 
 	--4.Find Salary of Each Employee
 /*-------------------------------------------------*/
+
+select FirstName , LastName , Salary from Employees
+
+	--5.Find Full Name of Each Employee
+/*-------------------------------------------------*/
+
