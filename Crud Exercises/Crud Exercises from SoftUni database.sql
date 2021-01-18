@@ -137,3 +137,33 @@ use Geography
 	--22. All Mountain Peaks
 /*-------------------------------------------------*/
 
+select PeakName
+from Peaks
+order by PeakName
+
+	--23. Biggest Countries by Population
+/*-------------------------------------------------*/
+
+select top(30) CountryName , Population 
+		from Countries
+		where ContinentCode = 'EU'
+		order by Population desc, CountryName
+
+		--24.*Countries and Currency (Euro / Not Euro)
+/*-------------------------------------------------*/
+select CountryName,CountryCode,
+       case
+       when CurrencyCode='Eur' then 'Euro'
+else 'Not Euro'
+         end  as 'Currency'
+from Countries
+order by CountryName
+
+/*--------------------------*/
+use Diablo
+
+select [Name] from Characters
+	order by [Name] 
+
+	
+
