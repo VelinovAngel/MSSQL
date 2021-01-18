@@ -20,3 +20,20 @@ select FirstName , LastName , Salary from Employees
 /*-------------------------------------------------*/
 
 select FirstName, MiddleName, LastName from Employees
+
+	--6. Find Email Address of Each Employee
+/*-------------------------------------------------*/
+
+select  FirstName + '.' + LastName + '@softuni.bg' as [Full Email Address] 
+		from Employees 
+
+	--7. Find All Different Employee’s Salaries
+/*-------------------------------------------------*/
+
+select distinct
+		Salary 
+	from Employees
+
+	--8. Find all Information About Employees
+/*-------------------------------------------------*/
+
