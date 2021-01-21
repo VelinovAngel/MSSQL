@@ -148,9 +148,65 @@ CREATE TABLE StudentsExams
 
 CREATE TABLE Teachers
 (
-	TeacherID INT IDENTITY(100,1) PRIMARY KEY,
+	TeacherID INT IDENTITY(101,1) PRIMARY KEY,
 	Name NCHAR(40) NOT NULL,
 	ManagerID INT FOREIGN KEY REFERENCES Teachers(TeacherID)
 )
 
-INSERT INTO Teachers
+--DROP TABLE Teachers
+
+INSERT INTO Teachers(Name, ManagerID) VALUES
+('John', NULL),
+('Maya', 106),
+('Silvia', 106),
+('Ted',	105),
+('Mark', 101),
+('Greta', 101)
+
+--Truncate table Teachers
+SELECT * FROM Teachers
+
+	--Problem 5.	Online Store Database
+/*------------------------------------------------*/
+CREATE TABLE Cities
+(
+	CityID INT PRIMARY KEY,
+	[Name] VARCHAR(50)
+)
+
+CREATE TABLE Customers
+(
+	CustomerID INT PRIMARY KEY,
+	[Name] VARCHAR(50),
+	Birthday DATE,
+	CityID INT FOREIGN KEY REFERENCES Cities(CityID)
+)
+
+CREATE TABLE Orders
+(
+	OrderID INT PRIMARY KEY,
+	CustomerID INT FOREIGN KEY REFERENCES Customers(CustomerID)
+)
+
+CREATE TABLE ItemTypes
+(
+	ItemTypeID INT PRIMARY KEY,
+	[Name] VARCHAR(50)
+)
+
+CREATE TABLE Items
+(
+	ItemID INT PRIMARY KEY,
+	[Name] VARCHAR(50),
+	ItemTypeID INT FOREIGN KEY REFERENCES ItemTypes(ItemTypeID)
+)
+
+CREATE TABLE OrderItems
+(
+	OrderID INT FOREIGN KEY REFERENCES Orders(OrderID),
+	ItemID INT FOREIGN KEY REFERENCES Items(ItemID),
+	PRIMARY KEY(OrderID, ItemID)
+)
+
+
+	
