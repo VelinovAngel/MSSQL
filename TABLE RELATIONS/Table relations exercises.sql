@@ -121,11 +121,18 @@ INSERT INTO Students(Name) VALUES
 ('Toni'),
 ('Ron')
 
+SELECT * FROM Students
+
 CREATE TABLE Exams
 (
 	ExamID INT PRIMARY KEY IDENTITY(100,1),
 	Name NCHAR(50)
 )
+
+INSERT INTO Exams(Name) VALUES 
+('SpringMVC'),
+('Neo4j'),
+('Oracle 11g')
 
 
 CREATE TABLE StudentsExams
