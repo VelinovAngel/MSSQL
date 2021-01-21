@@ -141,3 +141,16 @@ CREATE TABLE StudentsExams
 	ExamID INT FOREIGN KEY REFERENCES Exams(ExamID),
 	PRIMARY KEY(StudentID,ExamID)
 )
+
+
+		--Problem 4. Self-Referencing 
+/*------------------------------------------------*/
+
+CREATE TABLE Teachers
+(
+	TeacherID INT IDENTITY(100,1) PRIMARY KEY,
+	Name NCHAR(40) NOT NULL,
+	ManagerID INT FOREIGN KEY REFERENCES Teachers(TeacherID)
+)
+
+INSERT INTO Teachers
