@@ -116,6 +116,8 @@ CREATE TABLE Students
 	Name NCHAR(30),
 )
 
+DROP TABLE Students
+
 INSERT INTO Students(Name) VALUES 
 ('Mila'),
 ('Toni'),
@@ -209,4 +211,22 @@ CREATE TABLE OrderItems
 )
 
 
-	
+	--Problem 1.	University Database
+/*------------------------------------------------*/
+--CREATE DATABASE UniversityDatabase
+--USE UniversityDatabase
+
+CREATE TABLE Majors
+(
+	MajorID INT PRIMARY KEY,
+	[Name] VARCHAR(50)
+)
+
+CREATE TABLE Students
+(
+	StudentID INT PRIMARY KEY,
+	StudentNumber INT NOT NULL,
+	StudentName NCHAR(30) NOT NULL,
+	MajorID INT FOREIGN KEY REFERENCES Majors(MajorID)
+)
+
