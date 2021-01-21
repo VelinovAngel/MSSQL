@@ -116,6 +116,11 @@ CREATE TABLE Students
 	Name NCHAR(30),
 )
 
+INSERT INTO Students(Name) VALUES 
+('Mila'),
+('Toni'),
+('Ron')
+
 CREATE TABLE Exams
 (
 	ExamID INT PRIMARY KEY IDENTITY(100,1),
