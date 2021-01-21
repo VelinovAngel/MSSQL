@@ -230,3 +230,35 @@ CREATE TABLE Students
 	MajorID INT FOREIGN KEY REFERENCES Majors(MajorID)
 )
 
+
+CREATE TABLE Payments
+(
+	PaymentID INT PRIMARY KEY,
+	PaymentDate DATETIME,
+	PaymentAmount DECIMAL(18,2),
+	StudentID INT FOREIGN KEY REFERENCES Students(StudentID)
+)
+
+CREATE TABLE Subjects
+(
+	SubjectID INT PRIMARY KEY,
+	SubjectName NVARCHAR(50)
+)
+
+CREATE TABLE Agenda
+(
+	StudentID INT FOREIGN KEY REFERENCES Students(StudentID),
+	SubjectID INT FOREIGN KEY REFERENCES Subjects(SubjectID)
+	PRIMARY KEY(StudentID,SubjectID)
+)
+
+
+		--Problem 9. *Peaks in Rila
+/*------------------------------------------------*/
+
+--USE Geography
+
+SELECT mounth.MountainRange, peak.PeakName, peak.Elevation FROM Mountains AS mounth
+	JOIN Peaks AS peak ON peak.MountainId = mounth.Id 
+	WHERE mounth.MountainRange = 'Rila'
+	ORDER BY peak.Elevation DESC
