@@ -157,7 +157,7 @@ CREATE TABLE Teachers
 
 --DROP TABLE Teachers
 
-INSERT INTO Teachers(Name, ManagerID) VALUES
+INSERT INTO Teachers([Name], ManagerID) VALUES
 ('John', NULL),
 ('Maya', 106),
 ('Silvia', 106),
