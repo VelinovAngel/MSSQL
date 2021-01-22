@@ -113,7 +113,7 @@ SELECT m.ManufacturerID,m.Name,m.EstablishedOn FROM Manufacturers AS m
 CREATE TABLE Students
 (
 	StudentID INT PRIMARY KEY IDENTITY,
-	Name NCHAR(30),
+	[Name] NCHAR(30),
 )
 
 DROP TABLE Students
