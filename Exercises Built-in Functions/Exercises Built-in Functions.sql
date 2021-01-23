@@ -37,7 +37,7 @@ SELECT [FirstName], [LastName] FROM Employees
 --Write a SQL query to find town names that are 5 or 6 symbols long and order them alphabetically by town name.
 
 SELECT [Name] FROM Towns
-	WHERE LEN(Name) in (5,6)
+	WHERE LEN([Name]) in (5,6)
 	ORDER BY [Name] ASC
 
 
@@ -68,3 +68,7 @@ CREATE VIEW V_EmployeesHiredAfter2000 AS
 /*----------------------------------------------------------*/
 
 --Write a SQL query to find the names of all employees whose last name is exactly 5 characters long.
+
+SELECT [FirstName], LastName FROM Employees
+	WHERE LEN(LastName) in (5)
+
