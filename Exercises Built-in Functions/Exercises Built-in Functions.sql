@@ -105,4 +105,13 @@ SELECT [CountryName], [IsoCode] FROM Countries
 	WHERE CountryName LIKE '%a%a%a%'
 		ORDER BY IsoCode
 
-	 
+	 --Problem 13.	 Mix of Peak and River Names
+/*----------------------------------------------------------*/
+
+SELECT [PeakName], [RiverName], 
+		LOWER((Left(PeakName, LEN(PeakName) - 1)) + [RiverName]) AS Mix 
+FROM Rivers, Peaks
+	WHERE RIGHT(PeakName, 1) = Left(RiverName, 1)
+	ORDER BY Mix
+
+	
