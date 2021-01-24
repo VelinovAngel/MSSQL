@@ -167,4 +167,21 @@ FROM Games
 	ORDER BY [Name], [Duration], [Part of the Day] ASC
 
 
+
+	--Problem 18.Orders Table
 /*----------------------------------------------------------*/	
+
+SELECT [ProductName], [OrderDate], 
+		DATEADD(DAY, 3 ,[OrderDate]) AS [Pay Due],
+		DATEADD(MONTH, 1 , [OrderDate]) AS [Deliver Due]  
+FROM Orders
+
+	--Problem 19.People Table
+/*----------------------------------------------------------*/	
+
+SELECT 'Velinov' ,
+		DATEDIFF(YEAR, '1992-03-17 00:00:00.000', GETDATE()) AS [Age in Years],
+		DATEDIFF(MONTH, '1992-03-17 00:00:00.000', GETDATE()) AS [Age in Months],
+		DATEDIFF(DAY, '1992-03-17 00:00:00.000', GETDATE()) AS[Age in Days],
+		DATEDIFF(MINUTE, '1992-03-17 00:00:00.000', GETDATE()) AS[Age in Minutes],
+		DATEDIFF(SECOND, '1992-03-17 00:00:00.000', GETDATE()) AS[Age in Seconds]
