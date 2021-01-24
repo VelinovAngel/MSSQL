@@ -132,4 +132,13 @@ SELECT [Username], SUBSTRING ( [Email], CHARINDEX( '@', [Email] ) + 1,
 		   ORDER BY [Email Provider], [Username]
 
  
-	
+	--Problem 16.Get Users with IPAdress Like Pattern
+/*----------------------------------------------------------*/	
+
+--Find all users along with their IP addresses sorted by username alphabetically. Display only rows that IP address matches the pattern: "___.1%.%.___".
+
+--Legend: * - one symbol, ^ - one or more symbols
+
+SELECT [Username], [IpAddress] AS [IP Address] FROM Users
+	WHERE [IpAddress] LIKE '___.1%.%.___'
+	ORDER BY [Username]
