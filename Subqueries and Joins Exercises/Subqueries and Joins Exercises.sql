@@ -97,3 +97,23 @@ SELECT [FirstName], [LastName], [HireDate], [D].Name
 
 	--7.Employees with Project
 /*---------------------------------------------------*/
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--•	ProjectName
+--Filter only employees with a project which has started after 13.08.2002 and it is still ongoing (no end date). Return the first 5 rows sorted by EmployeeID in ascending order.
+
+
+SELECT TOP(5) E.EmployeeID, [FirstName], [P].Name
+	FROM Employees AS E
+	JOIN EmployeesProjects AS EP ON EP.EmployeeID = E.EmployeeID
+	JOIN Projects AS P ON EP.ProjectID = P.ProjectID
+	WHERE P.StartDate >= '2002-08-13' AND P.EndDate IS NULL
+	ORDER BY E.EmployeeID
+
+SELECT * FROM Employees
+SELECT * FROM Projects
+
+
+	--8.Employee 24
+/*---------------------------------------------------*/
