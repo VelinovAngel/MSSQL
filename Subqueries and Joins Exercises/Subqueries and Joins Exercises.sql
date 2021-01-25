@@ -51,3 +51,17 @@ SELECT * FROM Departments
 
 	--4.Employee Departments
 /*---------------------------------------------------*/
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--•	Salary
+--•	DepartmentName
+--Filter only employees with salary higher than 15000. Return the first 5 rows sorted by DepartmentID in ascending order.
+
+SELECT TOP(5) [EmployeeID], [FirstName], [Salary], [D].Name
+	FROM Employees
+	JOIN Departments AS D ON Employees.DepartmentID = D.DepartmentID
+	WHERE [Salary] > 15000 
+	ORDER BY D.DepartmentID
+
+	
