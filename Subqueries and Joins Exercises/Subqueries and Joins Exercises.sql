@@ -104,7 +104,7 @@ SELECT [FirstName], [LastName], [HireDate], [D].Name
 --Filter only employees with a project which has started after 13.08.2002 and it is still ongoing (no end date). Return the first 5 rows sorted by EmployeeID in ascending order.
 
 
-SELECT TOP(5) E.EmployeeID, [FirstName], [P].Name
+SELECT TOP(5) E.EmployeeID, [FirstName], [P].Name AS [ProjectName]
 	FROM Employees AS E
 	JOIN EmployeesProjects AS EP ON EP.EmployeeID = E.EmployeeID
 	JOIN Projects AS P ON EP.ProjectID = P.ProjectID
@@ -117,3 +117,41 @@ SELECT * FROM Projects
 
 	--8.Employee 24
 /*---------------------------------------------------*/
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--•	ProjectName
+--Filter all the projects of employee with Id 24. If the project has started during or after 2005 the returned value should be NULL.
+
+SELECT 
+		E.EmployeeID, 
+		FirstName,
+		CASE
+		WHEN YEAR(P.StartDate) >= 2005 THEN NULL
+		ELSE P.Name
+		END AS [ProjectName]
+	FROM Employees AS E
+	JOIN EmployeesProjects AS EM  ON EM.EmployeeID = E.EmployeeID
+	JOIN Projects AS P ON P.ProjectID = EM.ProjectID
+	WHERE E.EmployeeID = 24
+
+
+	--9.Employee Manager
+/*---------------------------------------------------*/
+
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--•	ManagerID
+--•	ManagerName
+--Filter all employees with a manager who has ID equals to 3 or 7. Return all the rows, sorted by EmployeeID in ascending order.
+
+SELECT E.EmployeeID, E.FirstName,E.ManagerID, Em.FirstName
+	FROM Employees AS Em
+	JOIN Employees AS E ON E.ManagerID = Em.EmployeeID
+	WHERE E.ManagerID = 3 OR E.ManagerID = 7
+	ORDER BY E.EmployeeID ASC
+
+SELECT * FROM Employees
+WHERE JobTitle = ''
+
