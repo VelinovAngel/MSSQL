@@ -31,3 +31,23 @@ SELECT TOP(50) [FirstName], [LastName] ,  t.Name AS Town , Addresses.AddressText
 SELECT * FROM Addresses
 	
 SELECT * FROM Towns
+
+
+	--3.Sales Employee
+/*---------------------------------------------------*/
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--•	LastName
+--•	DepartmentName
+--Sorted by EmployeeID in ascending order. Select only employees from "Sales" department.
+
+SELECT [EmployeeID], [FirstName], [LastName], D.Name
+	FROM Employees
+	LEFT JOIN Departments AS D ON Employees.DepartmentID = D.DepartmentID
+	WHERE D.Name = 'Sales'
+
+SELECT * FROM Departments
+
+	--4.Employee Departments
+/*---------------------------------------------------*/
