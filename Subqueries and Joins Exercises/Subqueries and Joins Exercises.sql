@@ -152,6 +152,18 @@ SELECT E.EmployeeID, E.FirstName,E.ManagerID, Em.FirstName
 	WHERE E.ManagerID = 3 OR E.ManagerID = 7
 	ORDER BY E.EmployeeID ASC
 
-SELECT * FROM Employees
-WHERE JobTitle = ''
+
+
+
+
+	--11. Min Average Salary
+/*---------------------------------------------------*/
+
+SELECT MIN(Average)
+	FROM (
+			SELECT AVG(Salary) AS Average
+			FROM Employees 
+			GROUP BY Employees.DepartmentID
+			) AS A
+
 
