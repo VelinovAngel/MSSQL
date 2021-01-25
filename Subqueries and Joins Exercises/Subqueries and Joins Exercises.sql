@@ -64,4 +64,36 @@ SELECT TOP(5) [EmployeeID], [FirstName], [Salary], [D].Name
 	WHERE [Salary] > 15000 
 	ORDER BY D.DepartmentID
 
-	
+	--5.Employees Without Project
+/*---------------------------------------------------*/
+--Write a query that selects:
+--•	EmployeeID
+--•	FirstName
+--Filter only employees without a project. Return the first 3 rows sorted by EmployeeID in ascending order.
+
+SELECT TOP(3) E.EmployeeID , [FirstName]
+	FROM Employees AS E
+	 LEFT OUTER JOIN EmployeesProjects AS P ON P.EmployeeID = E.EmployeeID
+	 WHERE P.ProjectID IS NULL
+	ORDER BY E.EmployeeID ASC
+
+SELECT * FROM Projects
+
+	--6.Employees Hired After
+/*---------------------------------------------------*/
+
+--Write a query that selects:
+--•	FirstName
+--•	LastName
+--•	HireDate
+--•	DeptName
+--Filter only employees hired after 1.1.1999 and are from either "Sales" or "Finance" departments, sorted by HireDate (ascending).
+
+SELECT [FirstName], [LastName], [HireDate], [D].Name 
+	FROM Employees
+	JOIN Departments AS D ON D.DepartmentID = Employees.DepartmentID
+	WHERE HireDate > '1999-01-01' AND (d.Name = 'Sales' OR d.Name = 'Finance')
+	ORDER BY HireDate ASC
+
+	--7.Employees with Project
+/*---------------------------------------------------*/
