@@ -163,10 +163,13 @@ SELECT E.EmployeeID, E.FirstName,E.ManagerID, Em.FirstName
 --•	DepartmentName
 --Show first 50 employees with their managers and the departments they are in (show the departments of the employees). Order by EmployeeID.
 
-SELECT *
-	FROM 
-
-
+SELECT TOP(50) EM.EmployeeID, EM.FirstName + ' ' + EM.LastName, E.FirstName + ' ' + E.LastName,
+D.Name
+	FROM Employees AS Em
+	JOIN Employees AS E ON E.EmployeeID = Em.ManagerID
+	JOIN Departments AS D ON D.DepartmentID = Em.DepartmentID
+	ORDER BY EM.EmployeeID ASC
+	
 
 	--11. Min Average Salary
 /*---------------------------------------------------*/
