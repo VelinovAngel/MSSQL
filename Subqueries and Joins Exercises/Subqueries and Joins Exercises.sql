@@ -153,6 +153,18 @@ SELECT E.EmployeeID, E.FirstName,E.ManagerID, Em.FirstName
 	ORDER BY E.EmployeeID ASC
 
 
+	--10. Employee Summary
+/*---------------------------------------------------*/
+
+--Write a query that selects:
+--•	EmployeeID
+--•	EmployeeName
+--•	ManagerName
+--•	DepartmentName
+--Show first 50 employees with their managers and the departments they are in (show the departments of the employees). Order by EmployeeID.
+
+SELECT *
+	FROM 
 
 
 
