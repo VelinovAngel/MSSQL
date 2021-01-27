@@ -181,4 +181,14 @@ SELECT MIN(Average)
 			GROUP BY Employees.DepartmentID
 			) AS A
 
+	--Second type
+
+SELECT TOP(1)  AVG(E.Salary) AS AverageSalary
+	FROM Employees AS E
+	JOIN Departments AS D ON D.DepartmentID = E.DepartmentID
+	GROUP BY d.DepartmentID
+	ORDER BY AverageSalary
+	
+
+
 
