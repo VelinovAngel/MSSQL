@@ -207,16 +207,20 @@ SELECT c.CountryCode, Mon.MountainRange, P.PeakName, P.Elevation
 	WHERE C.CountryName LIKE 'Bulgaria' AND P.Elevation > 2835
 	ORDER BY P.Elevation DESC
 	
+		--13. Count Mountain Ranges
+/*---------------------------------------------------*/
 
+--Write a query that selects:
+--•	CountryCode
+--•	MountainRanges
+--Filter the count of the mountain ranges in the United States, Russia and Bulgaria.
 
---SELECT C.CountryCode
---	FROM Countries AS C
---	JOIN MountainsCountries AS M ON M.CountryCode = C.CountryCode 
---	JOIN Peaks AS P ON P.MountainId = M.MountainId
---	WHERE C.CountryCode = 'BG'
-
-
-	
+SELECT	C.CountryCode, COUNT(m.MountainRange)
+	FROM Countries AS C
+	JOIN MountainsCountries AS mc ON mc.CountryCode = c.CountryCode
+	JOIN Mountains AS m ON m.Id = mc.MountainId
+	WHERE C.CountryCode IN ('US', 'BG', 'RU')
+	GROUP BY c.CountryCode
 
 
 
