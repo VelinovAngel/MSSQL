@@ -222,5 +222,76 @@ SELECT	C.CountryCode, COUNT(m.MountainRange)
 	WHERE C.CountryCode IN ('US', 'BG', 'RU')
 	GROUP BY c.CountryCode
 
+	--14. Countries with Rivers
+/*---------------------------------------------------*/
+--Write a query that selects:
+--•	CountryName
+--•	RiverName
+--Find the first 5 countries with or without rivers in Africa. Sort them by CountryName in ascending order.
+
+SELECT TOP(5) C.CountryName , R.RiverName
+	FROM Countries AS C
+	LEFT JOIN CountriesRivers AS CR On CR.CountryCode = C.CountryCode
+	LEFT JOIN Rivers AS R ON R.Id = CR.RiverId
+	LEFT JOIN Continents AS Cont ON Cont.ContinentCode = C.ContinentCode
+	WHERE Cont.ContinentName LIKE 'Africa'
+	ORDER BY C.CountryName ASC
+
+	--15. *Continents and Currencies
+/*---------------------------------------------------*/
+--Write a query that selects:
+--•	ContinentCode
+--•	CurrencyCode
+--•	CurrencyUsage
+--Find all continents and their most used currency. Filter any currency that is used in only one country. Sort your results by ContinentCode.
+
+SELECT ContinentCode, CurrencyCode, Total
+	FROM
+	(
+	SELECT ContinentCode ,CurrencyCode, COUNT(CurrencyCode) as Total,
+		DENSE_RANK() OVER(PARTITION BY ContinentCode ORDER BY COUNT(CurrencyCode) DESC) AS Ranked
+	FROM Countries
+	GROUP BY ContinentCode ,CurrencyCode
+	) AS TotalResult
+	WHERE Ranked = 1 AND Total > 1
+ORDER BY ContinentCode
+
+	--16.Countries Without Any Mountains
+/*---------------------------------------------------*/
+--Find all the count of all countries, which don’t have a mountain.
+
+SELECT COUNT(C.CountryName)
+	FROM Countries AS C
+	LEFT JOIN MountainsCountries AS MS ON MS.CountryCode = C.CountryCode	
+	WHERE MS.MountainId IS NULL
+
+
+
+
+	--17. Highest Peak and Longest River by Country
+/*---------------------------------------------------*/
+
+--For each country, find the elevation of the highest peak and the length of the longest river, sorted by the highest peak elevation (from highest to lowest), then by the longest river length (from longest to smallest), then by country name (alphabetically). Display NULL when no data is available in some of the columns. Limit only the first 5 rows.
+
+
+SELECT Peak.CountryName, Peak.Elevation, River.Length
+	FROM 
+	(
+	SELECT C.CountryName, P.Elevation
+	FROM Countries AS C
+	LEFT JOIN MountainsCountries AS MC ON MC.CountryCode = C.CountryCode
+	LEFT JOIN Mountains AS M ON M.Id = MC.MountainId
+	LEFT JOIN Peaks AS P ON P.MountainId = M.Id
+	) AS Peak 	,
+	(SELECT R.Length 
+		FROM Countries AS CO
+		LEFT JOIN CountriesRivers AS CR ON CR.CountryCode = CO.CountryCode
+		LEFT JOIN Rivers AS R ON R.Id = CR.RiverId
+	) AS RIVER
+	ORDER BY Peak.Elevation DESC, River.[Length] DESC ,Peak.CountryName
+
+	
+
+
 
 
