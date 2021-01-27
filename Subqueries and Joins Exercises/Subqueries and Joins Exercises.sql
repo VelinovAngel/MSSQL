@@ -188,6 +188,34 @@ SELECT TOP(1)  AVG(E.Salary) AS AverageSalary
 	JOIN Departments AS D ON D.DepartmentID = E.DepartmentID
 	GROUP BY d.DepartmentID
 	ORDER BY AverageSalary
+
+	--12. Highest Peaks in Bulgaria
+/*---------------------------------------------------*/
+
+--Write a query that selects:
+--•	CountryCode
+--•	MountainRange
+--•	PeakName
+--•	Elevation
+--Filter all peaks in Bulgaria with elevation over 2835. Return all the rows sorted by elevation in descending order.
+
+SELECT c.CountryCode, Mon.MountainRange, P.PeakName, P.Elevation
+	FROM Countries AS C
+	JOIN MountainsCountries AS M ON M.CountryCode = C.CountryCode
+	JOIN Mountains AS Mon ON Mon.Id = M.MountainId
+	JOIN Peaks AS P ON P.MountainId = Mon.Id
+	WHERE C.CountryName LIKE 'Bulgaria' AND P.Elevation > 2835
+	ORDER BY P.Elevation DESC
+	
+
+
+--SELECT C.CountryCode
+--	FROM Countries AS C
+--	JOIN MountainsCountries AS M ON M.CountryCode = C.CountryCode 
+--	JOIN Peaks AS P ON P.MountainId = M.MountainId
+--	WHERE C.CountryCode = 'BG'
+
+
 	
 
 
