@@ -7,3 +7,7 @@
 SELECT COUNT(FirstName) AS Count
 	FROM WizzardDeposits
 
+	--2. Longest Magic Wand
+/*-----------------------------------------------------*/
+--Select the size of the longest magic wand. Rename the new column appropriately.
+
