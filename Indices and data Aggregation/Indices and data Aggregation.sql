@@ -72,3 +72,19 @@ SELECT DepositGroup, SUM(DepositAmount) AS D
 	GROUP BY DepositGroup
 	HAVING SUM(DepositAmount) < 150000
 	ORDER BY D DESC
+
+	--8.  Deposit Charge
+/*-----------------------------------------------------*/
+--Create a query that selects:
+--•	Deposit group 
+--•	Magic wand creator
+--•	Minimum deposit charge for each group 
+--Select the data in ascending ordered by MagicWandCreator and DepositGroup.
+
+SELECT DepositGroup, MagicWandCreator , MIN(DepositCharge)
+	FROM WizzardDeposits
+	GROUP BY DepositGroup, MagicWandCreator
+	ORDER BY MagicWandCreator ASC , DepositGroup ASC
+
+
+	
