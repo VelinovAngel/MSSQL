@@ -267,30 +267,45 @@ SELECT COUNT(C.CountryName)
 
 
 
-
 	--17. Highest Peak and Longest River by Country
 /*---------------------------------------------------*/
 
 --For each country, find the elevation of the highest peak and the length of the longest river, sorted by the highest peak elevation (from highest to lowest), then by the longest river length (from longest to smallest), then by country name (alphabetically). Display NULL when no data is available in some of the columns. Limit only the first 5 rows.
 
 
-SELECT Peak.CountryName, Peak.Elevation, River.Length
-	FROM 
-	(
-	SELECT C.CountryName, P.Elevation
+SELECT TOP(5) C.CountryName AS CN, MAX(P.Elevation) AS HighestPeak, MAX(R.Length) AS LonghestRiver
 	FROM Countries AS C
 	LEFT JOIN MountainsCountries AS MC ON MC.CountryCode = C.CountryCode
 	LEFT JOIN Mountains AS M ON M.Id = MC.MountainId
 	LEFT JOIN Peaks AS P ON P.MountainId = M.Id
-	) AS Peak 	,
-	(SELECT R.Length 
-		FROM Countries AS CO
-		LEFT JOIN CountriesRivers AS CR ON CR.CountryCode = CO.CountryCode
-		LEFT JOIN Rivers AS R ON R.Id = CR.RiverId
-	) AS RIVER
-	ORDER BY Peak.Elevation DESC, River.[Length] DESC ,Peak.CountryName
+	LEFT JOIN CountriesRivers AS CR ON CR.CountryCode = C.CountryCode
+	LEFT JOIN Rivers AS R ON R.Id = CR.RiverId
+	GROUP BY C.CountryName
+	ORDER BY HighestPeak DESC, LonghestRiver DESC , CN 
 
 	
+	--18.Highest Peak Name and Elevation by Country
+/*---------------------------------------------------*/
+--For each country, find the name and elevation of the highest peak, along with its mountain. When no peaks are available in some country, display elevation 0, "(no highest peak)" as peak name and "(no mountain)" as mountain name. When multiple peaks in some country have the same elevation, display all of them. Sort the results by country name alphabetically, then by highest peak name alphabetically. Limit only the first 5 rows.
+
+SELECT TOP(5)  C.CountryName, 
+		CASE
+		WHEN P.PeakName IS NULL THEN '(no highest peak)' 
+		ELSE P.PeakName
+		END AS PeakName,
+		CASE 
+		WHEN P.Elevation IS NULL THEN '0'
+		ELSE P.Elevation
+		END AS Elevation,
+		CASE
+		WHEN M.MountainRange IS NULL THEN '(no mountain)'
+		ELSE M.MountainRange
+		END AS Mountain
+	FROM Countries AS C
+		LEFT JOIN MountainsCountries AS MC ON MC.CountryCode = C.CountryCode
+		LEFT JOIN Mountains AS M ON M.Id = MC.MountainId
+		LEFT JOIN Peaks AS P ON P.MountainId = M.Id
+	ORDER BY C.CountryName ASC , P.PeakName ASC
 
 
 
