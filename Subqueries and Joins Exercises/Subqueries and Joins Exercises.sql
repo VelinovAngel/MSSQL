@@ -288,6 +288,7 @@ SELECT TOP(5) C.CountryName AS CN, MAX(P.Elevation) AS HighestPeak, MAX(R.Length
 /*---------------------------------------------------*/
 --For each country, find the name and elevation of the highest peak, along with its mountain. When no peaks are available in some country, display elevation 0, "(no highest peak)" as peak name and "(no mountain)" as mountain name. When multiple peaks in some country have the same elevation, display all of them. Sort the results by country name alphabetically, then by highest peak name alphabetically. Limit only the first 5 rows.
 
+
 SELECT TOP(5)  C.CountryName, 
 		CASE
 		WHEN P.PeakName IS NULL THEN '(no highest peak)' 
