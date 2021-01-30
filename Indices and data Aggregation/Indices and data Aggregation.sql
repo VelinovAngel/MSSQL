@@ -11,3 +11,5 @@ SELECT COUNT(FirstName) AS Count
 /*-----------------------------------------------------*/
 --Select the size of the longest magic wand. Rename the new column appropriately.
 
+SELECT MAX(MagicWandSize)
+	FROM WizzardDeposits
