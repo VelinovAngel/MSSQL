@@ -50,3 +50,4 @@ SELECT TOP(2) DepositGroup
 SELECT DepositGroup, SUM(DepositAmount) 
 	FROM WizzardDeposits
 	GROUP BY DepositGroup
+
