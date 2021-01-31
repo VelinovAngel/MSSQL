@@ -227,3 +227,28 @@ SELECT COUNT(Salary)
 	FROM Employees
 	GROUP BY ManagerID
 	HAVING ManagerID IS NULL
+
+
+	--18. *3rd Highest Salary
+/*-----------------------------------------------------*/
+--Find the third highest salary in each department if there is such. 
+
+SELECT DepartmentID, MaxSalary
+	FROM (
+			SELECT DepartmentID, MAX(Salary) AS MaxSalary,
+				DENSE_RANK() OVER(PARTITION BY DepartmentID ORDER BY Salary DESC) AS RANKED	
+				FROM Employees
+				GROUP BY DepartmentID, Salary
+		) AS MaxSalaryQuery
+	WHERE RANKED = 3
+
+
+	--19. **Salary Challenge
+/*-----------------------------------------------------*/
+--Write a query that returns:
+--•	FirstName
+--•	LastName
+--•	DepartmentID
+--Select all employees who have salary higher than the average salary of their respective departments. Select only the first 10 rows. Order by DepartmentID.
+
+
