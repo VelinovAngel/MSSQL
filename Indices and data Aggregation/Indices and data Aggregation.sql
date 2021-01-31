@@ -1,4 +1,4 @@
-
+--USE Gringotts
 
 	--1. Records’ Count
 /*-----------------------------------------------------*/
@@ -87,4 +87,53 @@ SELECT DepositGroup, MagicWandCreator , MIN(DepositCharge)
 	ORDER BY MagicWandCreator ASC , DepositGroup ASC
 
 
-	
+	--9. Age Groups
+/*-----------------------------------------------------*/
+
+--Write down a query that creates 7 different groups based on their age.
+--Age groups should be as follows:
+--•	[0-10]
+--•	[11-20]
+--•	[21-30]
+--•	[31-40]
+--•	[41-50]
+--•	[51-60]
+--•	[61+]
+--The query should return
+--•	Age groups
+--•	Count of wizards in it
+
+SELECT Result.AgeGroup, COUNT(Result.AgeGroup)
+	FROM(
+		SELECT
+			CASE
+			WHEN Age BETWEEN 0 AND 10 THEN '[0-10]'
+			WHEN Age BETWEEN 11 AND 20 THEN '[11-20]'
+			WHEN Age BETWEEN 21 AND 30 THEN '[21-30]'
+			WHEN Age BETWEEN 31 AND 40 THEN '[31-40]'
+			WHEN Age BETWEEN 41 AND 50 THEN '[41-50]'
+			WHEN Age BETWEEN 51 AND 60 THEN '[51-60]'
+			ELSE '[61+]'
+		END AS AgeGroup
+	FROM WizzardDeposits) AS Result
+	GROUP BY Result.AgeGroup
+
+
+	--10. First Letter
+/*-----------------------------------------------------*/
+--Write a query that returns all unique wizard first letters of their first names only if they have deposit of type Troll Chest. Order them alphabetically. Use GROUP BY for uniqueness.
+
+SELECT DISTINCT LEFT(FirstName,1) AS FN	
+	FROM WizzardDeposits
+	WHERE DepositGroup LIKE 'Troll Chest'
+	ORDER BY FN ASC
+
+	--Second type
+SELECT FN
+	FROM
+		(SELECT DISTINCT LEFT(FirstName,1) AS FN	
+			FROM WizzardDeposits
+			WHERE DepositGroup LIKE 'Troll Chest'
+		)AS FirstLetter
+	GROUP BY FN
+	ORDER BY FN
