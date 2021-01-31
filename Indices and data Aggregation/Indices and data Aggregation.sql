@@ -217,3 +217,13 @@ SELECT DepartmentID ,MAX(Salary)
 	FROM Employees
 	GROUP BY DepartmentID
 	HAVING MAX(Salary) NOT BETWEEN 30000 AND 70000
+
+
+	--17. Employees Count Salaries
+/*-----------------------------------------------------*/
+--Count the salaries of all employees who don’t have a manager.
+
+SELECT COUNT(Salary)
+	FROM Employees
+	GROUP BY ManagerID
+	HAVING ManagerID IS NULL
