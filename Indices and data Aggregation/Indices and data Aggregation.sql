@@ -149,3 +149,11 @@ SELECT DepositGroup, IsDepositExpired, AVG(DepositInterest)
 	GROUP BY DepositGroup, IsDepositExpired
 	ORDER BY DepositGroup DESC , IsDepositExpired ASC
 
+
+	--12. * Rich Wizard, Poor Wizard
+/*-----------------------------------------------------*/
+--The rules are simple: You compare the deposits of every wizard with the wizard after him. If a wizard is the last one in the database, simply ignore it. In the end you have to sum the difference between the deposits.
+
+SELECT SUM(G.DepositAmount - H.DepositAmount) AS [Difference]
+	FROM WizzardDeposits AS H
+	JOIN WizzardDeposits AS G ON G.Id + 1 = H.Id  
