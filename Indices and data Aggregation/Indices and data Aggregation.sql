@@ -157,3 +157,31 @@ SELECT DepositGroup, IsDepositExpired, AVG(DepositInterest)
 SELECT SUM(G.DepositAmount - H.DepositAmount) AS [Difference]
 	FROM WizzardDeposits AS H
 	JOIN WizzardDeposits AS G ON G.Id + 1 = H.Id  
+
+
+	--13. Departments Total Salaries
+/*-----------------------------------------------------*/
+--Create a query that shows the total sum of salaries for each department. Order by DepartmentID.
+--Your query should return:	
+--•	DepartmentID
+
+--USE SoftUni
+
+SELECT E.DepartmentID, SUM(Salary) 
+	FROM Employees AS E
+	GROUP BY E.DepartmentID
+	ORDER BY E.DepartmentID
+
+
+	--14. Employees Minimum Salaries
+/*-----------------------------------------------------*/
+--Select the minimum salary from the employees for departments with ID (2, 5, 7) but only for those hired after 01/01/2000.
+--Your query should return:	
+--•	DepartmentID
+
+SELECT E.DepartmentID, MIN(Salary) 
+	FROM Employees AS E
+	WHERE E.DepartmentID IN(2,5,7) AND HireDate > '2000-01-01'
+	GROUP BY E.DepartmentID
+	ORDER BY E.DepartmentID
+
