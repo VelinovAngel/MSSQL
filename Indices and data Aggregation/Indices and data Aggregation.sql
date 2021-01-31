@@ -128,7 +128,7 @@ SELECT DISTINCT LEFT(FirstName,1) AS FN
 	WHERE DepositGroup LIKE 'Troll Chest'
 	ORDER BY FN ASC
 
-	--Second type
+	--Second query
 SELECT FN
 	FROM
 		(SELECT DISTINCT LEFT(FirstName,1) AS FN	
@@ -137,3 +137,4 @@ SELECT FN
 		)AS FirstLetter
 	GROUP BY FN
 	ORDER BY FN
+
