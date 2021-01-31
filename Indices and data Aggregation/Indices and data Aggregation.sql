@@ -185,3 +185,35 @@ SELECT E.DepartmentID, MIN(Salary)
 	GROUP BY E.DepartmentID
 	ORDER BY E.DepartmentID
 
+
+	--15. Employees Average Salaries
+/*-----------------------------------------------------*/
+--Select all employees who earn more than 30000 into a new table. 
+--Then delete all employees who have ManagerID = 42 (in the new table). 
+--Then increase the salaries of all employees with DepartmentID=1 by 5000.
+--Finally, select the average salaries in each department.
+
+SELECT * INTO NewTable	
+	FROM Employees	
+	WHERE Salary > 30000
+
+DELETE FROM NewTable	
+	WHERE ManagerID = 42
+
+UPDATE NewTable
+	SET Salary += 5000
+	WHERE DepartmentID = 1
+
+SELECT DepartmentID, AVG(Salary)
+	FROM NewTable
+	GROUP BY DepartmentID
+
+
+	--16. Employees Maximum Salaries
+/*-----------------------------------------------------*/
+--Find the max salary for each department. Filter those, which have max salaries NOT in the range 30000 – 70000.
+
+SELECT DepartmentID ,MAX(Salary)	
+	FROM Employees
+	GROUP BY DepartmentID
+	HAVING MAX(Salary) NOT BETWEEN 30000 AND 70000
