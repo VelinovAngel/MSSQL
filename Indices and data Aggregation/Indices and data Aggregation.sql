@@ -252,3 +252,14 @@ SELECT DepartmentID, MaxSalary
 --Select all employees who have salary higher than the average salary of their respective departments. Select only the first 10 rows. Order by DepartmentID.
 
 
+SELECT TOP(10) E.FirstName, E.LastName, E.DepartmentID
+	FROM Employees AS E
+	WHERE Salary >
+	(
+		SELECT AVG(Salary) AS AvgSalary	
+			FROM Employees AS ES
+			WHERE ES.DepartmentID = E.DepartmentID
+		GROUP BY DepartmentID
+	) 
+	
+
