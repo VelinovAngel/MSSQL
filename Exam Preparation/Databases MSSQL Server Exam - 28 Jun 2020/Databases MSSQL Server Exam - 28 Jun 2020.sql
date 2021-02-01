@@ -1,4 +1,5 @@
---CREATE DATABASE ColonialJourney
+CREATE DATABASE ColonialJourney
+
 
 	--01. DDL
 /*--------------------------------------*/
@@ -93,4 +94,17 @@ DELETE FROM Journeys
 
 --SecondSolution
 DELETE TOP(3) FROM Journeys
+
+
+		--Section 3. Querying 
+--5.Select all military journeys
+/*--------------------------------------*/
+
+SELECT	Id, FORMAT (JourneyStart, 'dd/MM/yyyy') as JS, FORMAT (JourneyEnd, 'dd/MM/yyyy') as JE
+	FROM Journeys
+	WHERE Purpose LIKE 'Military'
+	ORDER BY JS
+
+	SELECT * FROM Journeys
+	ORDER BY JourneyStart
 
