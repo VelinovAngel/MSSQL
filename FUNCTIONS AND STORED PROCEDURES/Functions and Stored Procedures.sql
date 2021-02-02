@@ -108,6 +108,7 @@ EXEC usp_EmployeesBySalaryLevel 'High'
 --7.Define Function
 /*----------------------------------------*/
 --Define a function ufn_IsWordComprised(@setOfLetters, @word) that returns true or false depending on that if the word is a comprised of the given set of letters. 
+GO
 
 CREATE FUNCTION ufn_IsWordComprised(@setOfLetters VARCHAR(MAX), @town VARCHAR(MAX))
 RETURNs BIT
@@ -127,9 +128,84 @@ END
 
 SELECT dbo.ufn_IsWordComprised('pppp', 'Guy')
 
+GO
 
 --8.* Delete Employees and Departments
 /*----------------------------------------*/
+--Write a procedure with the name usp_DeleteEmployeesFromDepartment (@departmentId INT) which deletes all Employees from a given department. Delete these departments from the Departments table too. Finally SELECT the number of employees from the given department. If the delete statements are correct the select query should return 0.
+--After completing that exercise restore your database to revert all changes.
+--Hint:
+--You may set ManagerID column in Departments table to nullable (using query "ALTER TABLE …").
+
+CREATE PROC usp_DeleteEmployeesFromDepartment(@departmentId INT) 
+AS
+ALTER TABLE Departments
+ALTER COLUMN ManagerID INT NULL
+
+DELETE FROM EmployeesProjects	
+WHERE EmployeeID IN(SELECT EmployeeID FROM Employees WHERE DepartmentID = @departmentId)
+
+UPDATE Employees
+	SET ManagerID = NULL
+	WHERE EmployeeID IN (SELECT EmployeeID FROM Employees WHERE DepartmentID = @departmentId)
+
+UPDATE Employees	
+	SET ManagerID = NULL
+	WHERE ManagerID IN (SELECT EmployeeID FROM Employees WHERE DepartmentID = @departmentId)
+
+UPDATE Departments
+	SET ManagerID = NULL
+	WHERE DepartmentID = @departmentId
+
+DELETE FROM Employees
+	WHERE DepartmentID = @departmentId
+
+DELETE FROm Departments
+	WHERE DepartmentID = @departmentId
+
+SELECT COUNT(*) FROM Employees WHERE DepartmentID = @departmentId
 
 
+				--2.Queries for Bank Database
 
+--9.Find Full Name
+/*----------------------------------------*/
+--You are given a database schema with tables AccountHolders(Id (PK), FirstName, LastName, SSN) and Accounts(Id (PK), AccountHolderId (FK), Balance).  Write a stored procedure usp_GetHoldersFullName that selects the full names of all people. 
+
+
+CREATE PROC usp_GetHoldersFullName
+AS
+SELECT FirstName + ' ' + LastName	
+	FROM AccountHolders
+
+
+--10.People with Balance Higher Than
+/*----------------------------------------*/
+--Your task is to create a stored procedure usp_GetHoldersWithBalanceHigherThan that accepts a number as a parameter and returns all people who have more money in total of all their accounts than the supplied number. Order them by first name, then by last name
+
+CREATE PROC usp_GetHoldersWithBalanceHigherThan(@Total DECIMAL(15,2))
+AS
+SELECT FirstName, LastName 	
+	FROM AccountHolders AS AH 
+	JOIN Accounts AS A ON AH.Id = A.AccountHolderId
+	GROUP BY FirstName, LastName
+	HAVING SUM(Balance) > @Total
+	ORDER BY FirstName, LastName
+
+
+--11.Future Value Function
+/*----------------------------------------*/
+--Your task is to create a function ufn_CalculateFutureValue that accepts as parameters – sum (decimal), yearly interest rate (float) and number of years(int). It should calculate and return the future value of the initial sum rounded to the fourth digit after the decimal delimiter. Using the following formula:
+
+CREATE FUNCTION ufn_CalculateFutureValue(@sum DECIMAL(15,2), @yearly FLOAT, @years int)
+RETURNS DECIMAL(15,4)
+BEGIN
+	DECLARE @Result DECIMAL(15,4) = (@sum*(POWER((1 + @yearly), @years)))
+	RETURN @Result
+END
+
+SELECT dbo.ufn_CalculateFutureValue(1000, 0.1, 5)
+
+
+--12.Calculating Interest
+/*----------------------------------------*/
