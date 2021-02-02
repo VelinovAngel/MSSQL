@@ -94,13 +94,42 @@ SELECT dbo.ufn_GetSalaryLevel(Salary) FROM Employees
 /*----------------------------------------*/
 --Write a stored procedure usp_EmployeesBySalaryLevel that receive as parameter level of salary (low, average or high) and print the names of all employees that have given level of salary. You should use the function - "dbo.ufn_GetSalaryLevel(@Salary) ", which was part of the previous task, inside your "CREATE PROCEDURE …" query.
 
+CREATE PROC usp_EmployeesBySalaryLevel(@levelSalary VARCHAR(20))
+AS
+SELECT 
+		FirstName,
+		LastName
+	FROM Employees
+		WHERE dbo.ufn_GetSalaryLevel(Salary) = @levelSalary 
 
 
-
-
-
-
+EXEC usp_EmployeesBySalaryLevel 'High'
 
 --7.Define Function
 /*----------------------------------------*/
+--Define a function ufn_IsWordComprised(@setOfLetters, @word) that returns true or false depending on that if the word is a comprised of the given set of letters. 
+
+CREATE FUNCTION ufn_IsWordComprised(@setOfLetters VARCHAR(MAX), @town VARCHAR(MAX))
+RETURNs BIT
+BEGIN
+DECLARE @count int = 1;
+
+WHILE(@count <= LEN(@town))
+BEGIN
+		DECLARE @currLetter CHAR(1) = SUBSTRING(@town, @count, 1)
+		IF (CHARINDEX(@currLetter, @setOfLetters) = 0)
+		RETURN 0
+	SET @count += 1
+END
+RETURN 1
+END
+
+
+SELECT dbo.ufn_IsWordComprised('pppp', 'Guy')
+
+
+--8.* Delete Employees and Departments
+/*----------------------------------------*/
+
+
 
