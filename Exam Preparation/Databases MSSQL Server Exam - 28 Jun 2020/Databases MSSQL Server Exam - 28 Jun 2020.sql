@@ -108,3 +108,23 @@ SELECT	Id, FORMAT (JourneyStart, 'dd/MM/yyyy') as JS, FORMAT (JourneyEnd, 'dd/MM
 	SELECT * FROM Journeys
 	ORDER BY JourneyStart
 
+--6.Select all pilots
+/*--------------------------------------*/
+
+SELECT C.Id, C.FirstName + ' ' + C.LastName
+	FROM Colonists AS C
+	JOIN TravelCards AS T ON T.ColonistId = C.Id
+	WHERE T.JobDuringJourney LIKE 'Pilot'
+	ORDER BY C.Id ASC
+
+
+--7.Count colonists
+/*--------------------------------------*/
+
+SELECT COUNT(J.Purpose)
+	FROM Colonists AS C
+	JOIN TravelCards AS T ON T.ColonistId = C.Id
+	JOIN Journeys AS J ON J.Id = T.JourneyId
+	WHERE J.Purpose LIKE 'Technical'
+	GROUP BY J.Purpose
+	
