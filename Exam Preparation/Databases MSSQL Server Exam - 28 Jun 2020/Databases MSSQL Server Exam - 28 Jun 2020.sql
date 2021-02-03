@@ -151,3 +151,19 @@ SELECT P.Name , COUNT(P.Name) AS [COUNT]
 	JOIN Planets AS P ON P.Id = S.PlanetId
 	GROUP BY P.Name
 	ORDER BY [COUNT] DESC, P.Name 
+
+
+--10.Select Second Oldest Important Colonist
+/*--------------------------------------*/
+--Find all colonists and their job during journey with rank 2. Keep in mind that all the selected colonists with rank 2 must be the oldest ones. You can use ranking over their job during their journey.
+
+SELECT K.JobDuringJourney, CONCAT(CO.FirstName,' ',CO.LastName), K.JobRank
+	FROM
+	(SELECT T.JobDuringJourney, T.ColonistId,
+		DENSE_RANK() OVER(PARTITION BY T.JobDuringJourney ORDER BY C.BirthDate ) AS JobRank
+	FROM Colonists AS C
+	JOIN TravelCards AS T ON T.ColonistId = C.Id
+	) AS K
+	JOIN Colonists AS CO ON CO.Id = K.ColonistId
+	WHERE K.JobRank = 2
+	ORDER BY K.JobDuringJourney
