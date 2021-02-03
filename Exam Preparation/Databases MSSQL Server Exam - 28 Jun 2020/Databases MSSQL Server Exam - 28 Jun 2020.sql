@@ -167,3 +167,29 @@ SELECT K.JobDuringJourney, CONCAT(CO.FirstName,' ',CO.LastName), K.JobRank
 	JOIN Colonists AS CO ON CO.Id = K.ColonistId
 	WHERE K.JobRank = 2
 	ORDER BY K.JobDuringJourney
+
+GO
+--11.Get Colonists Count
+/*--------------------------------------*/
+
+CREATE FUNCTION dbo.udf_GetColonistsCount(@PlanetName VARCHAR (30)) 
+RETURNS INT
+AS
+BEGIN
+RETURN(
+SELECT COUNT(C.Id)
+	FROM Journeys AS J
+	JOIN TravelCards AS TC ON TC.JourneyId = J.Id
+	JOIN Colonists AS C ON C.Id = TC.ColonistId
+	JOIN Spaceports AS S ON S.Id = J.DestinationSpaceportId
+	JOIN Planets AS P ON P.Id = S.PlanetId
+	WHERE P.Name = @PlanetName)
+END
+
+
+SELECT dbo.udf_GetColonistsCount('Otroyphus')
+
+GO
+
+
+
