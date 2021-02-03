@@ -140,3 +140,14 @@ SELECT S.Name , S.Manufacturer
 	WHERE DATEDIFF(YEAR, C.BirthDate, '01/01/2019') < 30 AND T.JobDuringJourney = 'Pilot'
 	ORDER BY S.Name
 
+
+--9.Select all planets and their journey count
+/*--------------------------------------*/
+--Extract from the database all planets’ names and their journeys count. Order the results by journeys count, descending and by planet name ascending.
+
+SELECT P.Name , COUNT(P.Name) AS [COUNT]
+	FROM Journeys AS J
+	JOIN Spaceports AS S ON S.Id = J.DestinationSpaceportId
+	JOIN Planets AS P ON P.Id = S.PlanetId
+	GROUP BY P.Name
+	ORDER BY [COUNT] DESC, P.Name 
