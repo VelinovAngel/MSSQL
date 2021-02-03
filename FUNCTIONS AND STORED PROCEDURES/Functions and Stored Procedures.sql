@@ -209,3 +209,33 @@ SELECT dbo.ufn_CalculateFutureValue(1000, 0.1, 5)
 
 --12.Calculating Interest
 /*----------------------------------------*/
+--Your task is to create a stored procedure usp_CalculateFutureValueForAccount that uses the function from the previous problem to give an interest to a person's account for 5 years, along with information about his/her account id, first name, last name and current balance as it is shown in the example below. It should take the AccountId and the interest rate as parameters. Again you are provided with “dbo.ufn_CalculateFutureValue” function which was part of the previous task.
+
+CREATE PROC usp_CalculateFutureValueForAccount(@accountID INT, @interest FLOAT)
+AS
+SELECT A.Id , AH.FirstName, AH.LastName, A.Balance, dbo.ufn_CalculateFutureValue(a.Balance , @interest , 5)	
+	FROM AccountHolders AS AH
+	JOIN Accounts AS A ON AH.Id = A.AccountHolderId
+	WHERE A.Id = @accountID
+
+
+--13.*Scalar Function: Cash in User Games Odd Rows
+/*----------------------------------------*/
+--Create a function ufn_CashInUsersGames that sums the cash of odd rows. Rows must be ordered by cash in descending order. The function should take a game name as a parameter and return the result as table. Submit only your function in.
+--Execute the function over the following game names, ordered exactly like: "Love in a mist".
+
+
+CREATE FUNCTION ufn_CashInUsersGames(@gameName VARCHAR(100))
+RETURNS TABLE 
+AS
+		RETURN(SELECT SUM(total.TotalCash) AS CASH
+				FROM(SELECT Cash AS TotalCash,
+						ROW_NUMBER() OVER(ORDER BY CASH DESC) AS RN
+						FROM Games AS G
+							JOIN UsersGames AS UG ON UG.GameId = G.Id
+						WHERE Name = @gameName
+				) AS total
+				WHERE total.RN % 2 = 1)	
+
+
+

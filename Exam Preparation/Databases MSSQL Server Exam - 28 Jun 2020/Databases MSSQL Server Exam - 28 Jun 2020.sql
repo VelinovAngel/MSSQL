@@ -128,3 +128,15 @@ SELECT COUNT(J.Purpose)
 	WHERE J.Purpose LIKE 'Technical'
 	GROUP BY J.Purpose
 	
+--8.Select spaceships with pilots younger than 30 years
+/*--------------------------------------*/
+--Extract from the database those spaceships, which have pilots, younger than 30 years old. In other words, 30 years from 01/01/2019. Sort the results alphabetically by spaceship name.
+
+SELECT S.Name , S.Manufacturer
+	FROM Colonists AS C
+	JOIN TravelCards AS T ON T.ColonistId = C.Id
+	JOIN Journeys AS J ON J.Id = T.JourneyId
+	JOIN Spaceships AS S ON S.Id = J.SpaceshipId
+	WHERE DATEDIFF(YEAR, C.BirthDate, '01/01/2019') < 30 AND T.JobDuringJourney = 'Pilot'
+	ORDER BY S.Name
+
