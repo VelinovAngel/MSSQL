@@ -1,6 +1,6 @@
 CREATE DATABASE TripService
 --DROP DATABASE TripService
---Section 1. DDL (30 pts)
+--1. Database design
 /*-----------------------------------------*/
 
 CREATE TABLE Cities(
@@ -12,7 +12,7 @@ CREATE TABLE Cities(
 CREATE TABLE Hotels(
 	Id INT PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(30) NOT NULL,
-	CityId INT REFERENCES Cities(Id) NOT NULL,
+	CityId INT FOREIGN KEY REFERENCES Cities(Id) NOT NULL,
 	EmployeeCount INT NOT NULL,
 	BaseRate DECIMAL(18,2)
 )
@@ -22,12 +22,12 @@ CREATE TABLE Rooms(
 	Price DECIMAL(18,2) NOT NULL,
 	[Type] NVARCHAR(20) NOT NULL,
 	Beds INT NOT NULL,
-	HotelId INT REFERENCES Hotels(Id) NOT NULL
+	HotelId INT FOREIGN KEY REFERENCES Hotels(Id) NOT NULL
 )
 
 CREATE TABLE Trips(
 	Id INT PRIMARY KEY IDENTITY,
-	RoomId INT REFERENCES Rooms(Id) NOT NULL,
+	RoomId INT FOREIGN KEY REFERENCES Rooms(Id) NOT NULL,
 	BookDate DATE  NOT NULL,
 	ArrivalDate DATE NOT NULL,
 	ReturnDate DATE NOT NULL,
@@ -41,13 +41,16 @@ CREATE TABLE Accounts(
 	FirstName NVARCHAR(50) NOT NULL,
 	MiddleName NVARCHAR(20),
 	LastName NVARCHAR(50) NOT NULL,
-	CityId INT REFERENCES Cities(Id) NOT NULL,
+	CityId INT FOREIGN KEY REFERENCES Cities(Id) NOT NULL,
 	BirthDate DATE NOT NULL,
 	Email NVARCHAR(100) UNIQUE NOT NULL
 )
 
 CREATE TABLE AccountsTrips(
-	AccountId INT REFERENCES Accounts(Id) NOT NULL,
-	TripId INT REFERENCES Trips(Id) NOT NULL,
-	Luggage INT CHECK (Luggage >= 0)
+	AccountId INT FOREIGN KEY REFERENCES Accounts(Id) NOT NULL,
+	TripId INT FOREIGN KEY REFERENCES Trips(Id) NOT NULL,
+	Luggage INT CHECK (Luggage >= 0),
+	PRIMARY KEY (AccountId , TripId)
 )
+
+
