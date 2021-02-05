@@ -1,0 +1,51 @@
+--CREATE DATABASE TripService
+
+--Section 1. DDL (30 pts)
+/*-----------------------------------------*/
+
+CREATE TABLE Cities(
+	Id INT PRIMARY KEY IDENTITY,
+	[Name] NVARCHAR(20) NOT NULL,
+	CountryCode VARCHAR(2) CHECK (LEN(CountryCode) = 2) NOT NULL,
+)
+
+CREATE TABLE Hotels(
+	Id INT PRIMARY KEY IDENTITY,
+	[Name] NVARCHAR(30) NOT NULL,
+	CityId INT REFERENCES Cities(Id) NOT NULL,
+	EmployeeCount INT,
+	BaseRate DECIMAL(18,2)
+)
+
+CREATE TABLE Rooms(
+	Id INT PRIMARY KEY IDENTITY,
+	Price DECIMAL(18,2) NOT NULL,
+	[Type] NVARCHAR(20) NOT NULL,
+	Beds INT NOT NULL,
+	HotelId INT REFERENCES Hotels(Id) NOT NULL
+)
+
+CREATE TABLE Trips(
+	Id INT PRIMARY KEY IDENTITY,
+	RoomId INT REFERENCES Rooms(Id) NOT NULL,
+	BookData DATETIME CHECK (BookData < ArrivalData) NOT NULL,
+	ArrivalData DATETIME CHECK (ArrivalData < ReturnData) NOT NULL,
+	ReturnData DATETIME NOT NULL,
+	CancelData DATETIME
+)
+
+CREATE TABLE Accounts(
+	Id INT PRIMARY KEY IDENTITY,
+	FirstName NVARCHAR(50) NOT NULL,
+	MiddleName NVARCHAR(20),
+	LastName NVARCHAR(50) NOT NULL,
+	CityId INT REFERENCES Cities(Id) NOT NULL,
+	BirthDate DATETIME NOT NULL,
+	Email NVARCHAR(100) UNIQUE NOT NULL
+)
+
+CREATE TABLE AccountsTrips(
+	AccountId INT REFERENCES Accounts(Id) NOT NULL,
+	TripId INT REFERENCES Trips(Id) NOT NULL,
+	Luggage INT CHECK (Luggage > 0)
+)
