@@ -168,10 +168,10 @@ SELECT K.JobDuringJourney, CONCAT(CO.FirstName,' ',CO.LastName), K.JobRank
 	WHERE K.JobRank = 2
 	ORDER BY K.JobDuringJourney
 
-GO
+
 --11.Get Colonists Count
 /*--------------------------------------*/
-
+GO
 CREATE FUNCTION dbo.udf_GetColonistsCount(@PlanetName VARCHAR (30)) 
 RETURNS INT
 AS
@@ -185,11 +185,11 @@ SELECT COUNT(C.Id)
 	JOIN Planets AS P ON P.Id = S.PlanetId
 	WHERE P.Name = @PlanetName)
 END
-
+GO
 
 SELECT dbo.udf_GetColonistsCount('Otroyphus')
 
 GO
 
-
+CREATE PROC
 
