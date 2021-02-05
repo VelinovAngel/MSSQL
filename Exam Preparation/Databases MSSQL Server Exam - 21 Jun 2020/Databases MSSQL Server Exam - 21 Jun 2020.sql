@@ -28,10 +28,12 @@ CREATE TABLE Rooms(
 CREATE TABLE Trips(
 	Id INT PRIMARY KEY IDENTITY,
 	RoomId INT REFERENCES Rooms(Id) NOT NULL,
-	BookData DATETIME CHECK (BookData < ArrivalData) NOT NULL,
-	ArrivalData DATETIME CHECK (ArrivalData < ReturnData) NOT NULL,
-	ReturnData DATETIME NOT NULL,
-	CancelData DATETIME
+	BookDate DATETIME  NOT NULL,
+	ArrivalDate DATETIME NOT NULL,
+	ReturnDate DATETIME NOT NULL,
+	CancelDate DATETIME,
+	CONSTRAINT CK_BookData CHECK (BookDate < ArrivalDate),
+	CONSTRAINT CK_ArrivalData CHECK (ArrivalDate < ReturnDate) 
 )
 
 CREATE TABLE Accounts(
