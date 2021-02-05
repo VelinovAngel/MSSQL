@@ -1,19 +1,19 @@
---CREATE DATABASE TripService
-
+CREATE DATABASE TripService
+--DROP DATABASE TripService
 --Section 1. DDL (30 pts)
 /*-----------------------------------------*/
 
 CREATE TABLE Cities(
 	Id INT PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(20) NOT NULL,
-	CountryCode VARCHAR(2) CHECK (LEN(CountryCode) = 2) NOT NULL,
+	CountryCode CHAR(2) NOT NULL,
 )
 
 CREATE TABLE Hotels(
 	Id INT PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(30) NOT NULL,
 	CityId INT REFERENCES Cities(Id) NOT NULL,
-	EmployeeCount INT,
+	EmployeeCount INT NOT NULL,
 	BaseRate DECIMAL(18,2)
 )
 
@@ -28,10 +28,10 @@ CREATE TABLE Rooms(
 CREATE TABLE Trips(
 	Id INT PRIMARY KEY IDENTITY,
 	RoomId INT REFERENCES Rooms(Id) NOT NULL,
-	BookDate DATETIME  NOT NULL,
-	ArrivalDate DATETIME NOT NULL,
-	ReturnDate DATETIME NOT NULL,
-	CancelDate DATETIME,
+	BookDate DATE  NOT NULL,
+	ArrivalDate DATE NOT NULL,
+	ReturnDate DATE NOT NULL,
+	CancelDate DATE,
 	CONSTRAINT CK_BookData CHECK (BookDate < ArrivalDate),
 	CONSTRAINT CK_ArrivalData CHECK (ArrivalDate < ReturnDate) 
 )
@@ -42,12 +42,12 @@ CREATE TABLE Accounts(
 	MiddleName NVARCHAR(20),
 	LastName NVARCHAR(50) NOT NULL,
 	CityId INT REFERENCES Cities(Id) NOT NULL,
-	BirthDate DATETIME NOT NULL,
+	BirthDate DATE NOT NULL,
 	Email NVARCHAR(100) UNIQUE NOT NULL
 )
 
 CREATE TABLE AccountsTrips(
 	AccountId INT REFERENCES Accounts(Id) NOT NULL,
 	TripId INT REFERENCES Trips(Id) NOT NULL,
-	Luggage INT CHECK (Luggage > 0)
+	Luggage INT CHECK (Luggage >= 0)
 )
