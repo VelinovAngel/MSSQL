@@ -144,3 +144,16 @@ SELECT Acc.Id, CONCAT(Acc.FirstName , ' ', Acc.LastName ),
 	ORDER BY Longest DESC , Shortest ASC
 
 
+	--8. Metropolis
+/*-----------------------------------------*/
+--Find the top 10 cities, which have the most registered accounts in them. Order them by the count of accounts (descending).
+
+SELECT TOP(10) C.Id ,C.Name ,C.CountryCode  ,COUNT(A.CityId) AS CityCount
+	FROM Cities AS C
+	JOIN Accounts AS A ON A.CityId = C.Id
+	GROUP BY A.CityId, C.Name, C.Id, C.CountryCode
+	ORDER BY CityCount DESC
+
+
+SELECT * FROM Accounts
+
