@@ -127,3 +127,20 @@ SELECT C.Name ,COUNT(H.Id) AS CountHotel
 	JOIN Hotels AS H ON H.CityId = C.Id 
 	GROUP BY C.Id, C.Name
 	ORDER BY CountHotel DESC , C.Name
+
+	--7. Longest and Shortest Trips
+/*-----------------------------------------*/
+--Find the longest and shortest trip for each account, in days. Filter the results to accounts with no middle name and trips, which are not cancelled (CancelDate is null).
+--Order the results by Longest Trip days (descending), then by Shortest Trip (ascending).
+
+SELECT Acc.Id, CONCAT(Acc.FirstName , ' ', Acc.LastName ), 
+		MAX(DATEDIFF(DAY ,T.ArrivalDate, T.ReturnDate )) AS Longest, 
+	    MIN(DATEDIFF(DAY ,T.ArrivalDate, T.ReturnDate)) AS Shortest
+	FROM Trips AS T
+	JOIN AccountsTrips AS A ON A.TripId = T.Id
+	JOIN Accounts AS Acc ON Acc.Id = A.AccountId
+	WHERE Acc.MiddleName IS NULL AND T.CancelDate IS NULL 
+	GROUP BY Acc.Id, Acc.FirstName, Acc.LastName
+	ORDER BY Longest DESC , Shortest ASC
+
+
