@@ -94,5 +94,27 @@ UPDATE Rooms
 	WHERE HotelId IN (5,7,9)
 
 
+--4. Delete
+/*-----------------------------------------*/
+--Delete all of Account ID 47’s account’s trips from the mapping table.
+
+DELETE FROM AccountsTrips
+	WHERE AccountId = 47
 
 
+
+--USE master
+--ALTER DATABASE TripService SET OFFLINE WITH ROLLBACK IMMEDIATE;
+
+USE TripService
+
+--5. EEE-Mails
+/*-----------------------------------------*/
+--Select accounts whose emails start with the letter “e”. Select their first and last name, their birthdate in the format "MM-dd-yyyy", their city name, and their Email.
+
+
+SELECT FirstName, LastName, FORMAT(BirthDate,'MM-dd-yyyy'), C.Name  ,Email 
+	FROM Accounts AS A
+	JOIN Cities AS C ON C.Id = A.CityId
+	WHERE Email LIKE 'e%'
+	ORDER BY C.Name ASC
