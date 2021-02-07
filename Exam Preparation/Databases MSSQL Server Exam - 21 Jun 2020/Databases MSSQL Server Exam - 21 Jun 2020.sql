@@ -155,5 +155,3 @@ SELECT TOP(10) C.Id ,C.Name ,C.CountryCode  ,COUNT(A.CityId) AS CityCount
 	ORDER BY CityCount DESC
 
 
-SELECT * FROM Accounts
-
