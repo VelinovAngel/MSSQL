@@ -112,7 +112,6 @@ USE TripService
 /*-----------------------------------------*/
 --Select accounts whose emails start with the letter “e”. Select their first and last name, their birthdate in the format "MM-dd-yyyy", their city name, and their Email.
 
-
 SELECT FirstName, LastName, FORMAT(BirthDate,'MM-dd-yyyy'), C.Name  ,Email 
 	FROM Accounts AS A
 	JOIN Cities AS C ON C.Id = A.CityId
