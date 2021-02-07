@@ -117,3 +117,13 @@ SELECT FirstName, LastName, FORMAT(BirthDate,'MM-dd-yyyy'), C.Name  ,Email
 	JOIN Cities AS C ON C.Id = A.CityId
 	WHERE Email LIKE 'e%'
 	ORDER BY C.Name ASC
+
+	--6. City Statistics
+/*-----------------------------------------*/
+--Select all cities with the count of hotels in them. Order them by the hotel count (descending), then by city name. Do not include cities, which have no hotels in them.
+
+SELECT C.Name ,COUNT(H.Id) AS CountHotel
+	FROM Cities AS C
+	JOIN Hotels AS H ON H.CityId = C.Id 
+	GROUP BY C.Id, C.Name
+	ORDER BY CountHotel DESC , C.Name
