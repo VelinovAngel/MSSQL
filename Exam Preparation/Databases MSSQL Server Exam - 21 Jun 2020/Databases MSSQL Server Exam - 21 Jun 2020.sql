@@ -155,3 +155,53 @@ SELECT TOP(10) C.Id ,C.Name ,C.CountryCode  ,COUNT(A.CityId) AS CityCount
 	ORDER BY CityCount DESC
 
 
+	--9. Romantic Getaways
+/*-----------------------------------------*/
+--Find all accounts, which have had one or more trips to a hotel in their hometown.
+--Order them by the trips count (descending), then by Account ID.
+
+SELECT  A.Id, A.Email, C.Name, COUNT(*) AS Trips
+	FROM Accounts AS A
+	JOIN AccountsTrips AS ATR ON ATR.AccountId = A.Id
+	JOIN Trips AS T ON T.Id = ATR.TripId
+	JOIN Rooms AS R ON R.Id = T.RoomId
+	JOIN Hotels AS H ON H.Id = R.HotelId
+	JOIN Cities AS C ON C.Id = H.CityId
+	WHERE A.CityId = H.CityId
+	GROUP BY A.Email, A.Id, C.Name 
+	ORDER BY Trips DESC , A.Id
+
+
+	--10. GDPR Violation
+/*-----------------------------------------*/
+--Retrieve the following information about each trip:
+	--•	Trip ID
+	--•	Account Full Name
+	--•	From – Account hometown
+	--•	To – Hotel city
+	--•	Duration – the duration between the arrival date and return date in days. If a trip is cancelled, the value is “Canceled”
+--Order the results by full name, then by Trip ID.
+
+
+SELECT  T.Id, 
+		CONCAT(A.FirstName, ' '+ MiddleName , ' ', A.LastName) AS FullName ,
+		CA.Name AS [FROM],
+		CH.Name AS [TO],
+		CASE	
+			WHEN T.CancelDate IS NOT NULL THEN 'Canceled'
+			ELSE CONCAT(DATEDIFF(DAY, T.ArrivalDate, T.ReturnDate), ' days')
+		END		
+		FROM Accounts AS A
+			JOIN AccountsTrips AS ATR ON ATR.AccountId = A.Id
+			JOIN Trips AS T ON T.Id = ATR.TripId
+			JOIN Rooms AS R ON R.Id = T.RoomId
+			JOIN Hotels AS H ON H.Id = R.HotelId
+			JOIN Cities AS CH ON CH.Id = H.CityId
+			JOIN Cities AS CA ON CA.Id = A.CityId
+			ORDER BY FullName ASC ,T.Id ASC
+
+
+
+	
+
+
