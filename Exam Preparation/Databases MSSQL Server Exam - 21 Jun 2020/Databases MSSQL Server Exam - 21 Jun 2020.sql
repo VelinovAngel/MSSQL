@@ -251,7 +251,7 @@ AS
 									SELECT Beds
 										FROM Rooms
 										WHERE Id = @TargetRoomId
-							 )
+							  )
 
 	IF(@PeopleCount > @RoomCount)
 		THROW 50001, 'Not enough beds in target room!', 1
