@@ -245,7 +245,7 @@ AS
 									SELECT COUNT(*)
 										FROM AccountsTrips
 										WHERE TripId = @TripId
-							   )
+							    )
 
 	DECLARE @RoomCount INT = (
 									SELECT Beds
