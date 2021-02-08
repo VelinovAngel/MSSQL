@@ -201,7 +201,72 @@ SELECT  T.Id,
 			ORDER BY FullName ASC ,T.Id ASC
 
 
+	--11. Available Room
+/*-----------------------------------------*/
 
-	
+
+  SELECT DISTINCT R.Id
+FROM Rooms R
+        LEFT JOIN Trips T on R.Id = T.RoomId
+		 WHERE R.HotelId = 94 AND '2015-07-26' BETWEEN T.ArrivalDate AND T.ReturnDate AND T.CancelDate IS NULL
+
+SELECT *
+	FROM Rooms
+	LEFT JOIN Trips ON Trips.RoomId = Rooms.Id
 
 
+
+
+	--12. Switch Room
+/*-----------------------------------------*/
+GO
+
+CREATE PROC usp_SwitchRoom(@TripId INT, @TargetRoomId INT)
+AS
+	DECLARE @HotelID INT =	(
+							   SELECT H.Id 
+									FROM Hotels AS H
+									JOIN Rooms AS R ON R.HotelId = H.Id
+									JOIN Trips AS T On T.RoomId = R.Id
+									WHERE T.Id = @TripId
+							)
+
+	DECLARE @RoomIdInHotel INT =  (
+										SELECT h.Id
+											FROM Hotels AS H
+											JOIN Rooms AS R ON R.HotelId = H.Id
+											WHERE @TargetRoomId = R.Id
+								  )
+
+	IF(@HotelID != @RoomIdInHotel)
+		THROW 50001, 'Target room is in another hotel!', 1
+
+	DECLARE @PeopleCount INT = (
+									SELECT COUNT(*)
+										FROM AccountsTrips
+										WHERE TripId = @TripId
+							   )
+
+	DECLARE @RoomCount INT = (
+									SELECT Beds
+										FROM Rooms
+										WHERE Id = @TargetRoomId
+							 )
+
+	IF(@PeopleCount > @RoomCount)
+		THROW 50001, 'Not enough beds in target room!', 1
+
+
+	UPDATE Trips	
+		SET RoomId = @TargetRoomId
+		WHERE Id = @TripId
+
+
+GO
+
+EXEC usp_SwitchRoom 10, 11
+SELECT RoomId FROM Trips WHERE Id = 10
+
+EXEC usp_SwitchRoom 10, 7
+
+EXEC usp_SwitchRoom 10, 8
