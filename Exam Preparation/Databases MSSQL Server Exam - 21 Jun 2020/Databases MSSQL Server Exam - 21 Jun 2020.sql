@@ -209,17 +209,56 @@ SELECT  T.Id,
 
 	--11. Available Room
 /*-----------------------------------------*/
+GO
+
+CREATE FUNCTION udf_GetAvailableRoom(@HotelId INT, @Date DATE, @People INT)
+RETURNS VARCHAR(MAX)
+BEGIN
+
+DECLARE @RoomID INT = 
+					(SELECT TOP(1) R.Id
+							 FROM Trips AS T
+							 JOIN Rooms AS R ON t.RoomId = R.Id
+							 JOIN Hotels AS H ON R.HotelId = H.Id
+								 WHERE H.Id = @HotelId
+								 AND @DATE NOT BETWEEN T.ArrivalDate AND T.ReturnDate
+								 AND T.CancelDate IS NULL
+								 AND R.Beds >= @People
+								 AND YEAR(@Date) = YEAR(T.ArrivalDate)
+								 ORDER BY r.Price DESC) 
+
+IF @RoomId IS NULL
+        RETURN 'No rooms available'
 
 
-  SELECT DISTINCT R.Id
-FROM Rooms R
-        LEFT JOIN Trips T on R.Id = T.RoomId
-		 WHERE R.HotelId = 94 AND '2015-07-26' BETWEEN T.ArrivalDate AND T.ReturnDate AND T.CancelDate IS NULL
+DECLARE @RoomPrice DECIMAL(18,2) = 
+	(SELECT Price
+			FROM Rooms
+			WHERE Id =  @RoomID)
 
-SELECT *
-	FROM Rooms
-	LEFT JOIN Trips ON Trips.RoomId = Rooms.Id
 
+    DECLARE @RoomType VARCHAR(50) = (SELECT Type
+                                         FROM Rooms
+                                         WHERE Id = @RoomId)
+
+    DECLARE @BedsCount INT = (SELECT Beds
+                                  FROM Rooms
+                                  WHERE Id = @RoomId)
+
+    DECLARE @HotelBaseRate DECIMAL(15, 2) = (SELECT BaseRate
+                                                 FROM Hotels
+                                                 WHERE Id = @HotelId)
+
+    DECLARE @TotalPrice DECIMAL(15, 2) = (@HotelBaseRate + @RoomPrice) * @People
+
+    RETURN CONCAT('Room ', @RoomId, ': ', @RoomType, ' (', @BedsCount, ' beds', ') - $', @TotalPrice)
+
+END
+
+GO
+
+SELECT dbo.udf_GetAvailableRoom(112, '2011-12-17', 2)
+SELECT dbo.udf_GetAvailableRoom(94, '2015-07-26', 3)
 
 
 
