@@ -128,6 +128,12 @@ SELECT C.Name ,COUNT(H.Id) AS CountHotel
 	GROUP BY C.Id, C.Name
 	ORDER BY CountHotel DESC , C.Name
 
+	--Second Solution:
+
+SELECT  C.Name AS City, (SELECT COUNT(*) FROM Hotels AS H WHERE H.CityId = C.Id) As Hotels
+	FROM Cities AS C
+	ORDER BY Hotels DESC, City
+
 	--7. Longest and Shortest Trips
 /*-----------------------------------------*/
 --Find the longest and shortest trip for each account, in days. Filter the results to accounts with no middle name and trips, which are not cancelled (CancelDate is null).
