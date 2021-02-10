@@ -178,3 +178,28 @@ SELECT CONCAT(M.FirstName,' ',M.LastName) ,AVG(DATEDIFF(DAY, J.IssueDate, Finish
 	GROUP BY M.MechanicId, M.FirstName,M.LastName
 	ORDER BY M.MechanicId ASC
 
+
+	--8.	Available Mechanics
+/*------------------------------------------------*/
+/*
+Select all mechanics without active jobs (include mechanics which don’t have any job assigned or all of their jobs are finished). Order by ID (ascending).
+Required columns:
+•	Mechanic Full Name
+*/
+
+SELECT CONCAT(M.FirstName, ' ', M.LastName) AS Available
+				FROM Mechanics AS M
+			LEFT JOIN Jobs AS J ON J.MechanicId = M.MechanicId
+			WHERE J.JobId IS NULL OR ( SELECT COUNT(*)
+										FROM Jobs
+										WHERE Status != 'Finished' AND MechanicId = m.MechanicId
+										GROUP BY MechanicId) IS NULL
+										GROUP BY CONCAT(M.FirstName, ' ', M.LastName), M.MechanicId
+										ORDER BY M.MechanicId
+					
+			
+			
+			 
+	
+
+
