@@ -99,5 +99,27 @@ INSERT INTO Parts(SerialNumber, [Description], Price, VendorId)
 --Assign all Pending jobs to the mechanic Ryan Harnos 
 --(look up his ID manually, there is no need to use table joins) and change their status to 'In Progress'.
 
-SELECT * FROM Jobs 
+SELECT COUNT(*) FROM Jobs 
+	WHERE MechanicId = 3
 
+SELECT * FROM Jobs
+
+UPDATE Jobs
+	SET Status = 'In Progress', MechanicId = 3
+	WHERE Status = 'Pending'
+	
+
+--4.Delete
+/*------------------------------------------------*/
+--Cancel Order with ID 19 – delete the order from the database and all associated entries from the mapping table.
+
+DELETE FROM OrderParts
+	WHERE OrderId = 19
+
+	DELETE FROM Orders
+	WHERE OrderId = 19
+
+
+			--Section 3. Querying 
+--5.Mechanic Assignments
+/*------------------------------------------------*/
