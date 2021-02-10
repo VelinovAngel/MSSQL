@@ -161,3 +161,20 @@ SELECT CONCAT(C.FirstName, ' ',C.LastName) AS Client,
 	WHERE J.Status != 'Finished'
 	ORDER BY [Days going] DESC, C.ClientId ASC
 
+
+
+	--7.	Mechanic Performance
+/*------------------------------------------------*/
+/*
+Select all mechanics and the average time they take to finish their assigned jobs. Calculate the average as an integer. Order results by mechanic ID (ascending).
+Required columns:
+•	Mechanic Full Name
+•	Average Days – average number of days the machanic took to finish the job
+*/
+
+SELECT CONCAT(M.FirstName,' ',M.LastName) ,AVG(DATEDIFF(DAY, J.IssueDate, FinishDate))  
+	FROM Mechanics AS M
+	JOIN Jobs AS J ON J.MechanicId = M.MechanicId
+	GROUP BY M.MechanicId, M.FirstName,M.LastName
+	ORDER BY M.MechanicId ASC
+
