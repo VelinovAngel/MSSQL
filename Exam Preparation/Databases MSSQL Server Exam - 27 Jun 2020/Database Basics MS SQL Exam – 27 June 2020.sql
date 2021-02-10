@@ -1,4 +1,4 @@
---CREATE DATABASE WMS
+CREATE DATABASE WMS
 
 --USE WMS
 
@@ -8,26 +8,26 @@
 /*------------------------------------------------*/
 
 CREATE TABLE Clients(
-	ClientId INT NOT NULL PRIMARY KEY IDENTITY,
+	ClientId INT PRIMARY KEY IDENTITY,
 	FirstName NVARCHAR(50),
 	LastName NVARCHAR(50),
 	Phone NVARCHAR(12)
 )
 
 CREATE TABLE Mechanics(
-	MechanicId INT NOT NULL PRIMARY KEY IDENTITY,
+	MechanicId INT PRIMARY KEY IDENTITY,
 	FirstName NVARCHAR(50),
 	LastName NVARCHAR(50),
 	Address NVARCHAR(255)
 )
 
 CREATE TABLE Models(
-	ModelId INT NOT NULL PRIMARY KEY IDENTITY,
+	ModelId INT PRIMARY KEY IDENTITY,
 	[Name] NVARCHAR(50) UNIQUE
 )
 
 CREATE TABLE Jobs(
-	JobId INT NOT NULL PRIMARY KEY IDENTITY,
+	JobId INT PRIMARY KEY IDENTITY,
 	ModelId INT NOT NULL REFERENCES Models(ModelId),
 	[Status] NVARCHAR(11) CHECK([Status] IN ('Pending', 'In Progress', 'Finished')) DEFAULT 'Pending' NOT NUll,
 	ClientId INT NOT NULL REFERENCES Clients(ClientId),
@@ -45,14 +45,14 @@ CREATE TABLE Orders(
 
 CREATE TABLE Vendors(
 	VendorId INT PRIMARY KEY IDENTITY,
-	[Name] NVARCHAR(50) UNIQUE
+	[Name] NVARCHAR(50) NOT NULL UNIQUE
 )
 
 CREATE TABLE Parts(
-	PartId INT NOT NULL PRIMARY KEY IDENTITY,
+	PartId INT PRIMARY KEY IDENTITY,
 	SerialNumber NVARCHAR(50) UNIQUE,
 	[Description] NVARCHAR(255),
-	Price DECIMAL (6,2) CHECK(Price > 0),
+	Price DECIMAL (6,2) NOT NULL CHECK(Price > 0),
 	VendorId INT NOT NULL REFERENCES Vendors(VendorId),
 	StockQty INT CHECK(StockQty >= 0) DEFAULT 0
 )
@@ -67,7 +67,7 @@ CREATE TABLE OrderParts(
 CREATE TABLE PartsNeeded(
 	JobId INT NOT NULL REFERENCES Jobs(JobId),
 	PartId INT NOT NULL REFERENCES Parts(PartId),
-	Quantity INT CHECK(Quantity > 0) DEFAULT 1,
+	Quantity INT NOT NULL CHECK(Quantity > 0) DEFAULT 1,
 	PRIMARY KEY(JobId,PartId)
 )
 
@@ -92,3 +92,12 @@ INSERT INTO Parts(SerialNumber, [Description], Price, VendorId)
 	('W10780048', 'Suspension Rod', 42.81, 1),
 	('W10841140', 'Silicone Adhesive ', 6.77, 4),
 	('WPY055980', 'High Temperature Adhesive', 13.94, 3)
+
+
+--3.Update
+/*------------------------------------------------*/
+--Assign all Pending jobs to the mechanic Ryan Harnos 
+--(look up his ID manually, there is no need to use table joins) and change their status to 'In Progress'.
+
+SELECT * FROM Jobs 
+
