@@ -120,6 +120,44 @@ DELETE FROM OrderParts
 	WHERE OrderId = 19
 
 
+--USE master
+--ALTER DATABASE WMS SET OFFLINE WITH ROLLBACK IMMEDIATE;
+
 			--Section 3. Querying 
 --5.Mechanic Assignments
 /*------------------------------------------------*/
+/*
+Select all mechanics with their jobs. Include job status and issue date. Order by mechanic Id, issue date, job Id (all ascending).
+Required columns:
+•	Mechanic Full Name
+•	Job Status
+•	Job Issue Date
+*/
+
+
+SELECT CONCAT(M.FirstName, ' ', LastName) AS [Full Name], 
+	   J.Status AS [Job Status],
+	   J.IssueDate AS [Job Issue Date]
+				FROM Mechanics AS M
+	JOIN Jobs AS J ON J.MechanicId = M.MechanicId
+	ORDER By M.MechanicId , J.IssueDate, j.JobId
+
+
+	--6.	Current Clients
+/*------------------------------------------------*/
+/*
+Select the names of all clients with active jobs (not Finished). Include the status of the job and how many days it’s been since it was submitted. Assume the current date is 24 April 2017. Order results by time length (descending) and by client ID (ascending).
+Required columns:
+•	Client Full Name
+•	Days going – how many days have passed since the issuing
+•	Status
+*/
+
+SELECT CONCAT(C.FirstName, ' ',C.LastName) AS Client,
+		DATEDIFF(DAY, J.IssueDate , '2017-04-24' ) AS [Days going],
+		J.Status
+	FROM Clients AS C
+	JOIN Jobs AS J ON J.ClientId = C.ClientId
+	WHERE J.Status != 'Finished'
+	ORDER BY [Days going] DESC, C.ClientId ASC
+
