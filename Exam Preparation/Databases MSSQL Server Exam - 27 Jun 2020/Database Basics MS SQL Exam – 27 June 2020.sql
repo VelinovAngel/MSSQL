@@ -262,3 +262,128 @@ SELECT p.PartId ,
 	GROUP BY P.PartId , P.Description, P.StockQty
 	HAVING SUM(PN.Quantity) > P.StockQty + ISNULL(SUM(OP.Quantity), 0)
 	ORDER BY P.PartId
+
+
+
+	--Section 4. Programmability
+
+--11.	Place Order
+/*------------------------------------------------*/
+/*
+Your task is to create a user defined procedure (usp_PlaceOrder) which accepts job ID, part serial number and   quantity and creates an order with the specified parameters. If an order already exists for the given job that and the order is not issued (order’s issue date is NULL), add the new product to it. If the part is already listed in the order, add the quantity to the existing one.
+*/
+
+GO
+
+CREATE OR ALTER PROC usp_PlaceOrder(@jobId INT, @serialNumberPart VARCHAR(20), @quantity INT)
+AS
+	--ID 50012 "Part quantity must be more than zero!"
+	IF(@quantity <= 0)
+		THROW 50012, 'Part quantity must be more than zero!', 1
+		
+	
+	DECLARE @JobSelect INT = (SELECT JobId
+								FROM Jobs
+								WHERE JobId = @jobId)
+
+	--ID 50013 "Job not found!"
+	IF(@JobSelect IS NULL)
+		THROW 50013, 'Job not found!' , 1
+
+
+	DECLARE @JobStatus NVARCHAR(50) = (SELECT Status
+											FROM Jobs 
+											WHERE JobId = @jobId)
+	--ID 50011 "This job is not active!"	
+		IF(@JobStatus = 'Finished')
+			THROW 50011, 'This job is not active!',1	
+
+	DECLARE @PartId INT = (SELECT PartId
+									FROM Parts
+									WHERE SerialNumber = @serialNumberPart)
+	--ID 50014 "Part not found!"
+	IF(@PartId IS NULL)
+		THROW 50014, 'Part not found!', 1
+
+
+
+
+	DECLARE @OrderId INT = (
+			SELECT O.OrderId
+				FROM Orders AS O
+				JOIN OrderParts AS OP ON OP.OrderId = O.OrderId
+				JOIN Parts AS P ON P.PartId = OP.PartId
+				WHERE P.SerialNumber = @serialNumberPart AND 
+					  O.JobId = @jobId AND 
+					  O.IssueDate IS NULL)
+
+	
+
+	IF(@OrderId IS NULL)
+		BEGIN
+			INSERT INTO Orders(JobId,IssueDate) VALUES
+			(@jobId, NULL)
+
+			INSERT INTO OrderParts(OrderId, PartId, Quantity) VALUES
+			(IDENT_CURRENT('Orders'), @PartId, @quantity)
+		END
+	ELSE 
+		BEGIN
+			DECLARE @ExistingOrder INT = (SELECT @@ROWCOUNT
+												FROM OrderParts
+													WHERE OrderId = @OrderId AND
+														  PartId = @PartId)
+			IF(@ExistingOrder IS NULL)
+				BEGIN
+					INSERT INTO OrderParts(OrderId,PartId,Quantity) VALUES
+					(@OrderId, @serialNumberPart, @quantity)
+				END
+			ELSE
+				BEGIN
+					UPDATE OrderParts
+						SET Quantity += @quantity
+						WHERE OrderId = @OrderId AND PartId = @PartId
+				END
+
+END 
+
+
+GO
+
+
+
+
+--12.	Cost Of Order
+/*------------------------------------------------*/
+/*
+Create a user defined function (udf_GetCost) that receives a job’s ID and returns the total cost of all parts that were ordered for it. Return 0 if there are no orders.
+Parameters:
+•	JobId
+*/
+GO
+
+CREATE FUNCTION udf_GetCost(@JobId INT)
+RETURNS DECIMAL(18,2)
+AS
+BEGIN
+		DECLARE @TotalCost DECIMAL(18,2)= ( 
+						SELECT ISNULL(SUM(P.Price * OP.Quantity),0)
+							FROM Jobs AS J
+							JOIN Orders AS O ON O.JobId = J.JobId
+							JOIN OrderParts AS OP ON OP.OrderId = O.OrderId
+							JOIN Parts AS P ON P.PartId = OP.PartId
+							WHERE O.JobId = @JobId)
+	RETURN @TotalCost
+END
+
+
+GO
+
+SELECT dbo.udf_GetCost(3)
+
+SELECT SUM(P.Price * OP.Quantity)
+	FROM Jobs AS J
+	JOIN Orders AS O ON O.JobId = J.JobId
+	JOIN OrderParts AS OP ON OP.OrderId = O.OrderId
+	JOIN Parts AS P ON P.PartId = OP.PartId
+	WHERE O.JobId = 1
