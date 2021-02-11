@@ -189,17 +189,76 @@ Required columns:
 
 SELECT CONCAT(M.FirstName, ' ', M.LastName) AS Available
 				FROM Mechanics AS M
-			LEFT JOIN Jobs AS J ON J.MechanicId = M.MechanicId
-			WHERE J.JobId IS NULL OR ( SELECT COUNT(*)
+		LEFT JOIN Jobs AS J ON J.MechanicId = M.MechanicId
+		WHERE J.JobId IS NULL OR ( SELECT COUNT(*)
 										FROM Jobs
-										WHERE Status != 'Finished' AND MechanicId = m.MechanicId
-										GROUP BY MechanicId) IS NULL
-										GROUP BY CONCAT(M.FirstName, ' ', M.LastName), M.MechanicId
-										ORDER BY M.MechanicId
+									WHERE Status != 'Finished' AND MechanicId = m.MechanicId
+									GROUP BY MechanicId) IS NULL
+									GROUP BY CONCAT(M.FirstName, ' ', M.LastName), M.MechanicId
+									ORDER BY M.MechanicId
 					
 			
 			
 			 
-	
+	--9.	Past Expenses	
+/*------------------------------------------------*/
+/*
+Select all finished jobs and the total cost of all parts that were ordered for them. Sort by total cost of parts ordered (descending) and by job ID (ascending).
+Required columns:
+•	Job ID
+•	Total Parts Cost
+*/
+
+SELECT Query.JobId,SUM(Query.Price)	AS Total
+		FROM(SELECT J.JobId, P.Price, PN.Quantity
+					FROM Jobs AS J
+					JOIN PartsNeeded As Pn ON Pn.JobId = J.JobId
+					JOIN Parts AS P ON P.PartId = PN.PartId
+					WHERE J.Status = 'Finished'
+					GROUP BY J.JobId, P.Price, PN.Quantity) AS Query
+					GROUP BY Query.JobId
+					ORDER BY Total DESC
+
+		--Second Solution
+
+SELECT Query.JobId, 
+		CASE
+			WHEN SUM(Query.Total) > 0 THEN SUM(Query.Total)
+			ELSE 0
+		END	
+		Total
+		FROM(SELECT J.JobId, 
+		P.Price, 
+		OP.Quantity,  
+		(SUM(P.Price) * OP.Quantity) AS Total
+					FROM Jobs AS J
+					LEFT JOIN Orders As O ON O.JobId = J.JobId
+					LEFT JOIN OrderParts AS OP ON OP.OrderId = O.OrderId
+					LEFT JOIN Parts AS P ON P.PartId = OP.PartId
+					WHERE J.Status = 'Finished' OR J.FinishDate IS NOT NULL
+					GROUP BY J.JobId, P.Price, OP.Quantity) AS Query
+					GROUP BY Query.JobId
+					ORDER BY Total DESC, Query.JobId ASC
 
 
+	--10.	Missing Parts
+/*------------------------------------------------*/
+/*
+List all parts that are needed for active jobs (not Finished) without sufficient quantity in stock and in pending orders (the sum of parts in stock and parts ordered is less than the required quantity). Order them by part ID (ascending).
+*/
+
+
+SELECT p.PartId ,
+	   P.Description,
+	   SUM(PN.Quantity),
+	   P.StockQty,
+	   ISNULL(SUM(OP.Quantity), 0) AS [Ordered]
+	FROM Parts AS P
+	JOIN PartsNeeded AS PN ON PN.PartId = P.PartId
+	JOIN Jobs AS J ON J.JobId = PN.JobId
+	LEFT JOIN Orders AS O ON O.JobId = J.JobId
+	LEFT JOIN OrderParts AS OP ON OP.OrderId = O.OrderId
+	WHERE J.Status != 'Finished' 
+	GROUP BY P.PartId , P.Description, P.StockQty
+	HAVING SUM(PN.Quantity) > P.StockQty + ISNULL(SUM(OP.Quantity), 0)
+	ORDER BY P.PartId
