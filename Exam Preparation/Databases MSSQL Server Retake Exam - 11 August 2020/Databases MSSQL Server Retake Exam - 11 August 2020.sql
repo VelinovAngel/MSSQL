@@ -235,4 +235,57 @@ SELECT Ordered.[Country Name], Ordered.[Distributor Name]
 
 
 
+		--Section 4. Programmability 
+	--11.Customers with Countries
+/*------------------------------------------*/
+/*
+Create a view named v_UserWithCountries which selects all customers with their countries.
+Required columns:
+•	CustomerName – first name plus last name, with space between them
+•	Age
+•	Gender
+•	CountryName
+*/
 
+GO 
+CREATE VIEW v_UserWithCountries AS
+SELECT CONCAT(C.FirstName,' ',C.LastName) AS CustomerName,
+	   C.Age AS Age,
+	   C.Gender AS Gender,
+	   CN.Name AS CountryName	
+	FROM Customers AS C
+	JOIN Countries AS CN ON CN.Id = C.CountryId
+	
+GO
+
+SELECT TOP 5 *
+  FROM v_UserWithCountries
+ ORDER BY Age
+
+
+	--12.	Delete Products
+/*------------------------------------------*/
+/*
+Create a trigger that deletes all of the relations of a product upon its deletion. 
+*/
+GO
+
+CREATE TRIGGER TR_DealetAllRelationOProducts 
+ON Products
+INSTEAD OF DELETE
+AS
+	BEGIN 
+		DECLARE @ProductId INT = (SELECT Id	
+										FROM deleted)
+
+		DELETE FROM ProductsIngredients	
+		WHERE ProductId = @ProductId
+
+		DELETE FROM Feedbacks
+		WHERE ProductId = @ProductId
+
+		DELETE FROM Products
+		WHERE Id = @ProductId
+	END
+
+	DELETE FROM Products WHERE Id = 7
